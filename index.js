@@ -1,4 +1,11 @@
 'use strict';
+const dotenv = require('dotenv')
+// if the .env file cant be found handle the error
+const result = dotenv.config();
+if (result.error) {
+    console.log(result.error.message);
+    process.exit(1);
+}
 
 const Hapi = require('@hapi/hapi');
 
@@ -36,7 +43,7 @@ async function init() {
     server.auth.strategy('session', 'cookie', {
         cookie: {
             name: 'poi',
-            password: 'password-should-be-32-characters',
+            password: process.env.COOKIE_PASSWORD,
             isSecure: false
         },
     });
