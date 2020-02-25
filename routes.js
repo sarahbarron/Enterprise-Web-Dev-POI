@@ -17,9 +17,9 @@ module.exports = [
         path: '/{param*}',
         handler: {
             directory: {
-                // set the path for the public folder
                 path: './public'
             }
-        }
+        },
+        options: { auth: false }
     }
 ];

@@ -1,15 +1,22 @@
 'use strict';
 
-const Hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 
 const server = Hapi.server({
     port: 3000,
     host: 'localhost'
 });
 
+server.bind({
+    users: {},
+    donations: [],
+});
 async function init() {
-    await server.register(require('inert'));
-    await server.register(require('vision'));
+    // Register plugins
+    await server.register(require('@hapi/inert'));
+    await server.register(require('@hapi/vision'));
+    await server.register(require('@hapi/cookie'));
+
 
     // setup the paths to views, layouts and partials &
     // set the templating engine to handlebars
@@ -25,6 +32,18 @@ async function init() {
         isCached: false,
     });
 
+    // Initialize the cookie plugin
+    server.auth.strategy('session', 'cookie', {
+        cookie: {
+            name: 'poi',
+            password: 'password-should-be-32-characters',
+            isSecure: false
+        },
+    });
+    // Set up the session as the default strategy for all routes
+    server.auth.default('session');
+
+    // Initialize routes
     server.route(require('./routes'));
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
