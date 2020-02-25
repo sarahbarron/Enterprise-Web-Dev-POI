@@ -11,13 +11,18 @@ async function init() {
     await server.register(require('inert'));
     await server.register(require('vision'));
 
+    // setup the paths to views, layouts and partials &
+    // set the templating engine to handlebars
     server.views({
         engines: {
-            hbs: require('handlebars')
+            hbs: require('handlebars'),
         },
         relativeTo: __dirname,
         path: './app/views',
-        isCached: false
+        layoutPath: './app/views/layouts',
+        partialsPath: './app/views/partials',
+        layout: true,
+        isCached: false,
     });
 
     server.route(require('./routes'));
