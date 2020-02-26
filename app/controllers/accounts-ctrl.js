@@ -19,6 +19,7 @@ const Accounts = {
     signup: {
         auth: false,
         handler: async function(request, h) {
+<<<<<<< HEAD
             try {
                 const payload = request.payload;
                 let user = await User.findByEmail(payload.email);
@@ -38,6 +39,19 @@ const Accounts = {
             } catch (err) {
                 return h.view('signup', { errors: [{ message: err.message }] });
             }
+=======
+            const payload = request.payload;
+            const newUser = new User({
+                firstName: payload.firstName,
+                lastName: payload.lastName,
+                email: payload.email,
+                password: payload.password,
+                admin: false
+            });
+            const user = await newUser.save();
+            request.cookieAuth.set({ id: user.id });
+            return h.redirect('/home');
+>>>>>>> feature/models
         }
     },
     showLogin: {
