@@ -1,4 +1,5 @@
 'use strict';
+const User = require('../models/user');
 
 const Accounts = {
     index: {
@@ -17,9 +18,15 @@ const Accounts = {
     signup: {
         auth: false,
         handler: function(request, h) {
-            const user = request.payload;
-            this.users[user.email] = user;
-            request.cookieAuth.set({ id: user.email });
+            const payload = request.payload;
+            const newUser = new User({
+                firstName: payload.firstName,
+                lastName: payload.lastName,
+                email: payload.email,
+                password: payload.password
+            });
+            const user = await newUser.save();
+            request.cookieAuth.set({ id: user.id });
             return h.redirect('/home');
         }
     },
