@@ -11,7 +11,11 @@ This is the Navigation menu for the welcome page
 <nav class="ui inverted menu">
     <header class="header item"> <a href="/"> Points Of Interest </a> </header>
     <div class="right menu">
-        <a class="item" href="/signup"> Signup</a>
-        <a class="item" href="/login">  Login</a>
+        <a id="signup" class="item" href="/signup"> Signup</a>
+        <a id="login" class="item" href="/login">  Login</a>
     </div>
 </nav>
+
+<script>
+    $("#{{_id}}").addClass("active teal item");
+</script>
