@@ -9,7 +9,7 @@ const Poi = {
     },
     allpois: {
         handler: async function(request, h) {
-            const poi_list = await PointOfInterest.find().lean()
+            const poi_list = await PointOfInterest.find().populate('user').lean();
             return h.view('allpois',
                 {
                     title: 'All created POIs',
@@ -30,7 +30,7 @@ const Poi = {
                 category: data.category,
                 latitude: data.latitude,
                 longitude: data.longitude,
-                user: user
+                user: user._id
             });
             await newPoi.save();
             return h.redirect('/allpois')
