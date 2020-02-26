@@ -1,0 +1,33 @@
+<!--
+Author: Sarah Barron
+College: Waterford Institute of Technology
+Course: Hdip Computer Science
+Module: Enterprise Web Development
+Assigment 1: POI's
+
+This is the base view for every view
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.3/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.3/dist/semantic.min.js"></script>
+</head>
+<body>
+<section class="ui container">
+    {{{content}}}
+</section>
+</body>
+</html>
+
+<script>
+    // Displays errors if an error object is passed to the view
+    // if no errors are sent there is no change
+    $('.message .close').on('click', function () {
+        $(this).closest('.message').transition('fade');
+    });
+</script>
