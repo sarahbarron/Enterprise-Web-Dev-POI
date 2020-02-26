@@ -2,6 +2,7 @@
 const dotenv = require('dotenv')
 // if the .env file cant be found handle the error
 const result = dotenv.config();
+
 if (result.error) {
     console.log(result.error.message);
     process.exit(1);
@@ -14,10 +15,10 @@ const server = Hapi.server({
     host: 'localhost'
 });
 
-server.bind({
-    users: {},
-    poi: [],
-});
+// db file creates a connection to the mongo database
+require('./app/models/db');
+
+
 async function init() {
     // Register plugins
     await server.register(require('@hapi/inert'));
