@@ -9,15 +9,17 @@
                     <th>Description</th>
                     <th>Image</th>
                     <th>Location</th>
+                    <th>Added By</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{#each allpois}}
+                {{#each poi}}
                     <tr>
                         <td> {{name}} </td>
                         <td> {{description}} </td>
                         <td> {{image}} </td>
                         <td> {{longitude}}, {{latitude}} </td>
+                        <td>{{user.firstName}} {{user.lastName}}</td>
                     </tr>
                 {{/each}}
                 </tbody>
