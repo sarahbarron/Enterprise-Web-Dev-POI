@@ -21,6 +21,13 @@ This is the base view for every view
 <section class="ui container">
     {{{content}}}
 </section>
-
 </body>
 </html>
+
+<script>
+    // Displays errors if an error object is passed to the view
+    // if no errors are sent there is no change
+    $('.message .close').on('click', function () {
+        $(this).closest('.message').transition('fade');
+    });
+</script>
