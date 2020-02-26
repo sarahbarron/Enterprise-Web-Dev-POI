@@ -28,6 +28,9 @@ const Accounts = {
                     .required(),
                 password: Joi.string().required()
             },
+            options: {
+                abortEarly: false
+            },
             failAction: function(request, h, error) {
                 return h
                     .view('signup', {
@@ -38,29 +41,6 @@ const Accounts = {
                     .code(400);
             }
         },
-        handler: async function(request, h) {
-            try {
-                const payload = request.payload;
-                let user = await User.findByEmail(payload.email);
-                if (user) {
-                    const message = 'Email address is already registered';
-                    throw Boom.badData(message);
-                }
-                const newUser = new User({
-                    firstName: payload.firstName,
-                    lastName: payload.lastName,
-                    email: payload.email,
-                    password: payload.password
-                });
-                user = await newUser.save();
-                request.cookieAuth.set({ id: user.id });
-                return h.redirect('/home');
-            } catch (err) {
-                return h.view('signup', { errors: [{ message: err.message }] });
-            }
-        }
-    },
-
     showLogin: {
         auth: false,
         handler: function(request, h) {
