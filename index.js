@@ -17,7 +17,7 @@ const server = Hapi.server({
 
 // db file creates a connection to the mongo database
 require('./app/models/db');
-
+server.validator(require('@hapi/joi'))
 
 async function init() {
     // Register plugins
