@@ -10,7 +10,8 @@ module.exports = [
     { method: 'POST', path: '/login', config: Accounts.login },
 
     { method: 'GET', path: '/home', config: Poi.home },
-
+    { method: 'GET', path: '/allpois', config: Poi.allpois},
+    { method: 'POST', path: '/addpoi', config: Poi.addpoi},
 
     {
         method: 'GET',

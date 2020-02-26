@@ -1,0 +1,29 @@
+<section class="ui raised segment">
+    <div class="ui grid">
+        <aside class="ui four wide column"><img src="images/waterford_greenway.jpg" class="ui medium image"/></aside>
+        <article class="eight wide column">
+            <table class="ui celled table segment">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Location</th>
+                    <th>Added By</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each poi}}
+                    <tr>
+                        <td> {{name}} </td>
+                        <td> {{description}} </td>
+                        <td> {{image}} </td>
+                        <td> {{longitude}}, {{latitude}} </td>
+                        <td>{{user.firstName}} {{user.lastName}}</td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </article>
+    </div>
+</section>

@@ -16,7 +16,7 @@ const server = Hapi.server({
 
 server.bind({
     users: {},
-    donations: [],
+    poi: [],
 });
 async function init() {
     // Register plugins
