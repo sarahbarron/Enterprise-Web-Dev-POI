@@ -11,7 +11,7 @@ module.exports = [
 
     { method: 'GET', path: '/home', config: Poi.home },
     { method: 'GET', path: '/allpois', config: Poi.allpois},
-
+    { method: 'POST', path: '/allpois', config: Poi.addpoi},
 
     {
         method: 'GET',
