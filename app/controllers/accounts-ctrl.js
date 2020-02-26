@@ -10,6 +10,7 @@ const Accounts = {
             return h.view('main', { title: 'Welcome to Points of Interest' });
         }
     },
+
     showSignup: {
 
         auth: false,
@@ -17,6 +18,7 @@ const Accounts = {
             return h.view('signup', { title: 'Sign up for Points of Interest' });
         }
     },
+
     signup: {
         auth: false,
         validate: {
@@ -41,12 +43,36 @@ const Accounts = {
                     .code(400);
             }
         },
+        handler: async function(request, h) {
+            try {
+                const payload = request.payload;
+                let user = await User.findByEmail(payload.email);
+                if (user) {
+                    const message = 'Email address is already registered';
+                    throw Boom.badData(message);
+                }
+                const newUser = new User({
+                    firstName: payload.firstName,
+                    lastName: payload.lastName,
+                    email: payload.email,
+                    password: payload.password
+                });
+                user = await newUser.save();
+                request.cookieAuth.set({ id: user.id });
+                return h.redirect('/home');
+            } catch (err) {
+                return h.view('signup', { errors: [{ message: err.message }] });
+            }
+        }
+    },
+
     showLogin: {
         auth: false,
         handler: function(request, h) {
             return h.view('login', { title: 'Login to Points of Interest' });
         }
     },
+
     login: {
         auth: false,
         handler: async function(request, h) {
@@ -88,18 +114,44 @@ const Accounts = {
 
     // Allows user update their settings
     updateSettings: {
+        validate: {
+            payload: {
+                firstName: Joi.string().required(),
+                lastName: Joi.string().required(),
+                email: Joi.string()
+                    .email()
+                    .required(),
+                password: Joi.string().required()
+            },
+            options: {
+                abortEarly: false
+            },
+            failAction: function(request, h, error) {
+                return h
+                    .view('settings', {
+                        title: 'Sign up error',
+                        errors: error.details
+                    })
+                    .takeover()
+                    .code(400);
+            }
+        },
         handler: async function(request, h) {
-            const userEdit = request.payload;
-            const id = request.auth.credentials.id;
-            const user = await User.findById(id);
-            user.firstName = userEdit.firstName;
-            user.lastName = userEdit.lastName;
-            user.email = userEdit.email;
-            user.password = userEdit.password;
-            await user.save();
-            return h.redirect('/settings');
+            try {
+                const userEdit = request.payload;
+                const id = request.auth.credentials.id;
+                const user = await User.findById(id);
+                user.firstName = userEdit.firstName;
+                user.lastName = userEdit.lastName;
+                user.email = userEdit.email;
+                user.password = userEdit.password;
+                await user.save();
+                return h.redirect('/settings');
+            } catch (err) {
+                return h.view('main', { errors: [{ message: err.message }] });
+            }
         }
-    }
+    },
 };
 
 module.exports = Accounts;
