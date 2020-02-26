@@ -11,8 +11,7 @@ const PoiSchema = new Schema({
     categories: String,
     longitude: Number,
     latitude: Number,
-    firstName: String,
-    lastName: String
+    user: Object
 });
 
 module.exports = Mongoose.model('Poi', PoiSchema);

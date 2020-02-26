@@ -1,4 +1,5 @@
 const PointOfInterest = require('../models/poi');
+const User = require('../models/user')
 
 const Poi = {
     home: {
@@ -19,6 +20,8 @@ const Poi = {
 
     addpoi:{
         handler: async function(request, h) {
+            const id = request.auth.credentials.id;
+            const user = await User.findById(id);
             const data = request.payload;
             const newPoi = new PointOfInterest({
                 name: data.name,
@@ -27,6 +30,7 @@ const Poi = {
                 category: data.category,
                 latitude: data.latitude,
                 longitude: data.longitude,
+                user: user
             });
             await newPoi.save();
             return h.redirect('/allpois')
