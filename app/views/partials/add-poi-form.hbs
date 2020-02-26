@@ -1,0 +1,40 @@
+<section class="ui raised segment">
+    <div class="ui grid ">
+        <div class="ui form eight wide column">
+            <div class="ui stacked segment">
+                <form action="/donate" method="POST">
+                    <div class="field">
+                        <label>Name of POI</label>
+                        <input type="text" name="name" placeholder="Give your POI a name here" required>
+                    </div>
+                    <div class="field">
+                        <label>Description</label>
+                        <textarea name="description" placeholder="Give a description of your POI here"></textarea>
+                    </div>
+                    <div class="field">
+                        <label>Upload an Image</label>
+                        <input type="file" name="image">
+                    </div>
+                    <div class="field">
+                        <label>Location</label>
+                        <div class="two fields">
+                            <div class="field">
+                                <label>Longitude</label>
+                                <input type="number" name="longitude" required>
+                            </div>
+                            <div class="field">
+                                <label>Latitude</label>
+                                <input type="number" name="latitude" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="ui blue submit button" value="Upload">Add POI</button>
+                </form>
+            </div>
+        </div>
+        <aside class="four wide column">
+            <img src="images/waterford-greenway.jpg" class="ui medium image">
+        </aside>
+    </div>
+</section>
