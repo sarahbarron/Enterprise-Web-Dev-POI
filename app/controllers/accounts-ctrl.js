@@ -24,7 +24,8 @@ const Accounts = {
                 firstName: payload.firstName,
                 lastName: payload.lastName,
                 email: payload.email,
-                password: payload.password
+                password: payload.password,
+                admin: false
             });
             const user = await newUser.save();
             request.cookieAuth.set({ id: user.id });

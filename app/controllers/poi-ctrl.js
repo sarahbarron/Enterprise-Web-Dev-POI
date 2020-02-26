@@ -1,3 +1,5 @@
+const PointOfInterest = require('../models/poi');
+
 const Poi = {
     home: {
         handler: function(request, h) {
@@ -5,22 +7,29 @@ const Poi = {
         }
     },
     allpois: {
-        handler: function(request, h) {
+        handler: async function(request, h) {
+            const poi_list = await PointOfInterest.find().lean()
             return h.view('allpois',
                 {
                     title: 'All created POIs',
-                    poi: this.poi
+                    poi: poi_list
                 });
         }
     },
 
     addpoi:{
-        handler: function(request, h) {
+        handler: async function(request, h) {
             const data = request.payload;
-            let userEmail = request.auth.credentials.id
-            data.user = this.users[userEmail]
-            this.poi.push(data);
-            return h.redirect('/allpois');
+            const newPoi = new PointOfInterest({
+                name: data.name,
+                description: data.description,
+                image: data.image,
+                category: data.category,
+                latitude: data.latitude,
+                longitude: data.longitude,
+            });
+            await newPoi.save();
+            return h.redirect('/allpois')
         }},
 };
 
