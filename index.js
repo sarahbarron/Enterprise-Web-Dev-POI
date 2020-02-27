@@ -1,7 +1,7 @@
 'use strict';
-const dotenv = require('dotenv')
+// const dotenv = require('dotenv')
 // if the .env file cant be found handle the error
-const result = dotenv.config();
+// const result = dotenv.config();
 
 if (result.error) {
     console.log(result.error.message);
