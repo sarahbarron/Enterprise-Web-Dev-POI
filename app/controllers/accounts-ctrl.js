@@ -28,7 +28,7 @@ const Accounts = {
                 email: Joi.string()
                     .email()
                     .required(),
-                password: Joi.string().required()
+                password: Joi.string().required(),
             },
             options: {
                 abortEarly: false
@@ -55,7 +55,8 @@ const Accounts = {
                     firstName: payload.firstName,
                     lastName: payload.lastName,
                     email: payload.email,
-                    password: payload.password
+                    password: payload.password,
+                    scope: ['user']
                 });
                 user = await newUser.save();
                 request.cookieAuth.set({ id: user.id });
@@ -104,7 +105,8 @@ const Accounts = {
                     throw Boom.unauthorized(message);
                 }
                 user.comparePassword(password);
-                request.cookieAuth.set({ id: user.id });
+                request.cookieAuth.set({ id: user.id, scope: user.scope });
+                // request.cookieAuth.set({scope: user.scope});
                 return h.redirect('/home');
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
@@ -121,7 +123,8 @@ const Accounts = {
 
     // show user settings
     showSettings: {
-        handler: async function(request, h) {
+         auth: {scope: 'user'},
+         handler: async function(request, h) {
             try {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();

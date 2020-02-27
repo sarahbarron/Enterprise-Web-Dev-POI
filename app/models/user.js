@@ -20,7 +20,7 @@ const userSchema = new Schema({
     lastName: String,
     email: String,
     password: String,
-    admin: Boolean
+    scope: Array
 });
 
 userSchema.statics.findByEmail = function(email) {
