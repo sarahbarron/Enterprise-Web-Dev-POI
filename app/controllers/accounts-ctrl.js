@@ -167,8 +167,13 @@ const Accounts = {
                 user.password = userEdit.password;
                 await user.save();
                 return h.redirect('/settings');
+<<<<<<< HEAD
             } catch (err) {
                 return h.view('main', { errors: [{ message: err.message }] });
+=======
+            }catch (err) {
+                return h.view('main', {errors:[{message: err.message}]});
+>>>>>>> 0.1.0
             }
         }
     },
