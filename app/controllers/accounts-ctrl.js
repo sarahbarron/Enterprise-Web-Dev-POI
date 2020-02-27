@@ -1,6 +1,7 @@
 'use strict';
 const User = require('../models/user');
 const Boom = require('@hapi/boom');
+const Joi = require('@hapi/joi');
 
 const Accounts = {
     index: {
@@ -9,6 +10,7 @@ const Accounts = {
             return h.view('main', { title: 'Welcome to Points of Interest' });
         }
     },
+
     showSignup: {
 
         auth: false,
@@ -16,8 +18,31 @@ const Accounts = {
             return h.view('signup', { title: 'Sign up for Points of Interest' });
         }
     },
+
     signup: {
         auth: false,
+        validate: {
+            payload: {
+                firstName: Joi.string().required(),
+                lastName: Joi.string().required(),
+                email: Joi.string()
+                    .email()
+                    .required(),
+                password: Joi.string().required()
+            },
+            options: {
+                abortEarly: false
+            },
+            failAction: function(request, h, error) {
+                return h
+                    .view('signup', {
+                        title: 'Sign up error',
+                        errors: error.details
+                    })
+                    .takeover()
+                    .code(400);
+            }
+        },
         handler: async function(request, h) {
             try {
                 const payload = request.payload;
@@ -38,18 +63,6 @@ const Accounts = {
             } catch (err) {
                 return h.view('signup', { errors: [{ message: err.message }] });
             }
-
-            const payload = request.payload;
-            const newUser = new User({
-                firstName: payload.firstName,
-                lastName: payload.lastName,
-                email: payload.email,
-                password: payload.password,
-                admin: false
-            });
-            const user = await newUser.save();
-            request.cookieAuth.set({ id: user.id });
-            return h.redirect('/home');
         }
     },
 
@@ -59,8 +72,29 @@ const Accounts = {
             return h.view('login', { title: 'Login to Points of Interest' });
         }
     },
+
     login: {
         auth: false,
+        validate: {
+            payload: {
+                email: Joi.string()
+                    .email()
+                    .required(),
+                password: Joi.string().required()
+            },
+            options: {
+                abortEarly: false
+            },
+            failAction: function(request, h, error) {
+                return h
+                    .view('login', {
+                        title: 'Sign in error',
+                        errors: error.details
+                    })
+                    .takeover()
+                    .code(400);
+            }
+        },
         handler: async function(request, h) {
             const { email, password } = request.payload;
             try {
@@ -100,6 +134,28 @@ const Accounts = {
 
     // Allows user update their settings
     updateSettings: {
+        validate: {
+            payload: {
+                firstName: Joi.string().required(),
+                lastName: Joi.string().required(),
+                email: Joi.string()
+                    .email()
+                    .required(),
+                password: Joi.string().required()
+            },
+            options: {
+                abortEarly: false
+            },
+            failAction: function(request, h, error) {
+                return h
+                    .view('settings', {
+                        title: 'Sign up error',
+                        errors: error.details
+                    })
+                    .takeover()
+                    .code(400);
+            }
+        },
         handler: async function(request, h) {
             try {
                 const userEdit = request.payload;
@@ -111,11 +167,13 @@ const Accounts = {
                 user.password = userEdit.password;
                 await user.save();
                 return h.redirect('/settings');
-            }catch (err) {
-                return h.view('main', {errors:[{message: err.message}]});
+
+            } catch (err) {
+                return h.view('main', { errors: [{ message: err.message }] });
+
             }
         }
-    }
+    },
 };
 
 module.exports = Accounts;
