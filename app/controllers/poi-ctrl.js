@@ -7,14 +7,19 @@ const Poi = {
             return h.view('home', { title: 'Points of Interest' });
         }
     },
+
     allpois: {
         handler: async function(request, h) {
-            const poi_list = await PointOfInterest.find().populate('user').lean();
-            return h.view('allpois',
-                {
-                    title: 'All created POIs',
-                    poi: poi_list
-                });
+            try {
+                const poi_list = await PointOfInterest.find().populate('user').lean();
+                return h.view('allpois',
+                    {
+                        title: 'All created POIs',
+                        poi: poi_list
+                    });
+            }catch (err) {
+                return h.view('login', {errors:[{message: err.message}]})
+            }
         }
     },
 
