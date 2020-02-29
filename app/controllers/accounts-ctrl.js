@@ -59,7 +59,7 @@ const Accounts = {
                     scope: ['user']
                 });
                 user = await newUser.save();
-                request.cookieAuth.set({ id: user.id });
+                request.cookieAuth.set({ id: user.id, scope: user.scope });
                 return h.redirect('/home');
             } catch (err) {
                 return h.view('signup', { errors: [{ message: err.message }] });
@@ -106,7 +106,7 @@ const Accounts = {
                 }
                 user.comparePassword(password);
                 request.cookieAuth.set({ id: user.id, scope: user.scope });
-                // request.cookieAuth.set({scope: user.scope});
+
                 return h.redirect('/home');
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
@@ -123,7 +123,7 @@ const Accounts = {
 
     // show user settings
     showSettings: {
-         auth: {scope: 'user'},
+         auth: {scope: ['admin']},
          handler: async function(request, h) {
             try {
                 const id = request.auth.credentials.id;
