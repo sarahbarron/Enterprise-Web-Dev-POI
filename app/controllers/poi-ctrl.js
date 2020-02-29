@@ -11,7 +11,9 @@ const Poi = {
     allpois: {
         handler: async function(request, h) {
             try {
-                const poi_list = await PointOfInterest.find().populate('user').lean();
+                const id = request.auth.credentials.id;
+                const user = await User.findById(id).lean();
+                const poi_list = await PointOfInterest.find({user: user}).populate('user').lean();
                 return h.view('allpois',
                     {
                         title: 'All created POIs',
