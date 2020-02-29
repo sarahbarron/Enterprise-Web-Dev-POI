@@ -46,6 +46,19 @@ const Poi = {
                 return h.view('main', {errors: [{message: err.message}]})
             }
         }},
+    deletepoi:{
+        handler: async function(request, h) {
+            try {
+
+                const id = request.params.id;
+                await PointOfInterest.findByIdAndDelete(id);
+                return h.redirect('/allpois')
+            }
+             catch (err) {
+                return h.view('main', {errors: [{message: err.message}]})
+            }
+        }
+    }
 };
 
 module.exports = Poi;
