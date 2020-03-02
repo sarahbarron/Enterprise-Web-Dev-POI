@@ -1,6 +1,6 @@
 <section class="ui raised segment">
     <div class="ui grid">
-        <aside class="ui four wide column"><img src="images/waterford_greenway.jpg" class="ui medium image"/></aside>
+        <aside class="ui four wide column"><img src="../images/waterford_greenway.jpg" class="ui medium image"/></aside>
         <article class="eight wide column">
             <table class="ui celled table segment">
                 <thead>
@@ -10,7 +10,9 @@
                     <th>Image</th>
                     <th>Location</th>
                     <th>Added By</th>
+                    {{#if notadmin}}
                     <th></th>
+                    {{/if}}
                 </tr>
                 </thead>
                 <tbody>
@@ -21,11 +23,13 @@
                         <td> {{image}} </td>
                         <td> {{longitude}}, {{latitude}} </td>
                         <td>{{user.firstName}} {{user.lastName}}</td>
+                        {{#if ../notadmin}}
                         <td>
                             <a href="/delete-poi/{{_id}}" class="ui icon button">
                                 <i class="icon trash"></i>
                             </a>
                         </td>
+                        {{/if}}
                     </tr>
                 {{/each}}
                 </tbody>

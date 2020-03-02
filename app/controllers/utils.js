@@ -5,7 +5,13 @@ const utils = {
              return true;
          }
          return false;
-     }
+     },
+    notAdmin(scope) {
+        if (scope == 'admin') {
+            return false;
+        }
+        return true;
+    }
 };
 
 module.exports = utils;

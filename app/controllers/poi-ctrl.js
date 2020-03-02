@@ -1,5 +1,6 @@
 const PointOfInterest = require('../models/poi');
-const User = require('../models/user')
+const User = require('../models/user');
+const Utils = require('./utils');
 
 const Poi = {
     home: {
@@ -14,15 +15,15 @@ const Poi = {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
                 const poi_list = await PointOfInterest.find({user: user}).populate('user').lean();
-                const scope = await user.scope;
-                let isadmin;
-                if (scope == 'admin'){ isadmin = true;}
-                else{ isadmin = false;}
+                const scope = user.scope;
+                const isadmin = Utils.isAdmin(scope);
+                const notadmin = Utils.notAdmin(scope);
                 return h.view('allpois',
                     {
                         title: 'All created POIs',
                         poi: poi_list,
-                        isadmin: isadmin
+                        isadmin: isadmin,
+                        notadmin: notadmin
                     });
             }catch (err) {
                 return h.view('login', {errors:[{message: err.message}]})
@@ -64,7 +65,6 @@ const Poi = {
         handler: async function(request, h) {
             try {
 
-                // Delete the Poi
                 const poi_id = request.params.id;
                 await PointOfInterest.findByIdAndDelete(poi_id);
 
@@ -75,10 +75,9 @@ const Poi = {
                 user.numOfPoi = numOfPoi - 1;
                 await user.save();
 
-                // Redirect to view all Poi's
                 return h.redirect('/allpois')
             }
-             catch (err) {
+            catch (err) {
                 return h.view('main', {errors: [{message: err.message}]})
             }
         }
