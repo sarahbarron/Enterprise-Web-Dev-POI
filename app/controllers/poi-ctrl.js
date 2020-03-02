@@ -33,9 +33,11 @@ const Poi = {
     addpoi:{
         handler: async function(request, h) {
             try {
+
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const data = request.payload;
+                // Create the new POI
                 const newPoi = new PointOfInterest({
                     name: data.name,
                     description: data.description,
@@ -47,7 +49,7 @@ const Poi = {
                 });
                 await newPoi.save();
 
-                // Increment num of pois
+                // Increment num of pois for the user
                 let numOfPoi = parseInt(user.numOfPoi);
                 user.numOfPoi = numOfPoi + 1;
                 await user.save();
@@ -62,8 +64,18 @@ const Poi = {
         handler: async function(request, h) {
             try {
 
-                const id = request.params.id;
-                await PointOfInterest.findByIdAndDelete(id);
+                // Delete the Poi
+                const poi_id = request.params.id;
+                await PointOfInterest.findByIdAndDelete(poi_id);
+
+                // Decrement num of pois
+                const user_id = request.auth.credentials.id;
+                const user = await User.findById(user_id);
+                let numOfPoi = parseInt(user.numOfPoi);
+                user.numOfPoi = numOfPoi - 1;
+                await user.save();
+
+                // Redirect to view all Poi's
                 return h.redirect('/allpois')
             }
              catch (err) {
