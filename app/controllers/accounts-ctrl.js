@@ -2,6 +2,8 @@
 const User = require('../models/user');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
+const Utils = require('./utils');
+
 
 const Accounts = {
     index: {
@@ -55,10 +57,11 @@ const Accounts = {
                     firstName: payload.firstName,
                     lastName: payload.lastName,
                     email: payload.email,
-                    password: payload.password
+                    password: payload.password,
+                    scope: ['user']
                 });
                 user = await newUser.save();
-                request.cookieAuth.set({ id: user.id });
+                request.cookieAuth.set({ id: user.id, scope: user.scope });
                 return h.redirect('/home');
             } catch (err) {
                 return h.view('signup', { errors: [{ message: err.message }] });
@@ -104,8 +107,13 @@ const Accounts = {
                     throw Boom.unauthorized(message);
                 }
                 user.comparePassword(password);
-                request.cookieAuth.set({ id: user.id });
-                return h.redirect('/home');
+                request.cookieAuth.set({ id: user.id, scope: user.scope });
+                const scope = user.scope;
+                const isadmin = Utils.isAdmin(scope)
+                return h.view('home',
+                    {
+                        isadmin: isadmin,
+                    });
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
             }
@@ -121,11 +129,15 @@ const Accounts = {
 
     // show user settings
     showSettings: {
+        auth: {scope: 'admin'},
         handler: async function(request, h) {
             try {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
-                return h.view('settings', { title: 'Donation Settings', user: user });
+                const scope = user.scope;
+                const isadmin = Utils.isAdmin(scope);
+
+                return h.view('settings', { title: 'Donation Settings', user: user, isadmin: isadmin });
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
             }

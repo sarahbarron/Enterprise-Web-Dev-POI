@@ -1,6 +1,6 @@
 const Poi = require('./app/controllers/poi-ctrl')
 const Accounts = require('./app/controllers/accounts-ctrl')
-
+const Admin = require('./app/controllers/admin-ctrl')
 module.exports = [
     // Routes for authentication
     { method: 'GET', path: '/', config: Accounts.index },
@@ -17,8 +17,11 @@ module.exports = [
     { method: 'GET', path: '/delete-poi/{id}', config: Poi.deletepoi},
 
     // routes for settings
-    { method: 'GET', path: '/settings', config: Accounts.showSettings },
-    { method: 'POST', path: '/settings', config: Accounts.updateSettings },
+    {method: 'GET', path: '/settings', config: Accounts.showSettings},
+    {method: 'POST', path: '/settings', config: Accounts.updateSettings },
+
+    // admin
+    {method: 'GET', path: '/admin-dashboard', config: Admin.adminDashboard},
     {
         method: 'GET',
         path: '/{param*}',
@@ -29,4 +32,5 @@ module.exports = [
         },
         options: { auth: false }
     }
+
 ];

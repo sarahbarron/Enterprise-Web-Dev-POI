@@ -14,10 +14,15 @@ const Poi = {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
                 const poi_list = await PointOfInterest.find({user: user}).populate('user').lean();
+                const scope = await user.scope;
+                let isadmin;
+                if (scope == 'admin'){ isadmin = true;}
+                else{ isadmin = false;}
                 return h.view('allpois',
                     {
                         title: 'All created POIs',
-                        poi: poi_list
+                        poi: poi_list,
+                        isadmin: isadmin
                     });
             }catch (err) {
                 return h.view('login', {errors:[{message: err.message}]})
