@@ -22,6 +22,7 @@ module.exports = [
 
     // admin
     {method: 'GET', path: '/admin-dashboard', config: Admin.adminDashboard},
+    {method: 'GET', path: '/delete-user/{id}', config: Admin.deleteUser},
     {
         method: 'GET',
         path: '/{param*}',

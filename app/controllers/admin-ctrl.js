@@ -24,5 +24,16 @@ const Admin = {
             }
         }
     },
+    deleteUser: {
+        handler: async function (request, h) {
+            try {
+                const id = request.params.id;
+                await User.findByIdAndDelete(id);
+                return h.redirect('/admin-dashboard')
+            } catch (err) {
+                return h.view('login', {errors: [{message: err.message}]})
+            }
+        }
+    },
 };
 module.exports = Admin;
