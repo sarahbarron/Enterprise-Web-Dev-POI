@@ -19,6 +19,7 @@ const userSchema = new Schema({
     lastName: String,
     email: String,
     password: String,
+    numOfPoi: Number,
     scope: Array
 });
 

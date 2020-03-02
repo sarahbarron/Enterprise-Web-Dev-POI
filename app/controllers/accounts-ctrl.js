@@ -58,7 +58,8 @@ const Accounts = {
                     lastName: payload.lastName,
                     email: payload.email,
                     password: payload.password,
-                    scope: ['user']
+                    numOfPoi: 0,
+                    scope: ['admin']
                 });
                 user = await newUser.save();
                 request.cookieAuth.set({ id: user.id, scope: user.scope });

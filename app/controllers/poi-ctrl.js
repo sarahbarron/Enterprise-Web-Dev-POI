@@ -46,6 +46,13 @@ const Poi = {
                     user: user._id
                 });
                 await newPoi.save();
+
+                // Increment num of pois
+                let numOfPoi = parseInt(user.numOfPoi);
+                user.numOfPoi = numOfPoi + 1;
+                await user.save();
+
+                // redirect to view all POI's
                 return h.redirect('/allpois')
             }catch(err){
                 return h.view('main', {errors: [{message: err.message}]})
