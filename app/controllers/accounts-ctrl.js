@@ -2,7 +2,7 @@
 const User = require('../models/user');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
-const Utils = require('./utils');
+const Utils = require('../utils/isAdmin');
 
 
 const Accounts = {
@@ -58,10 +58,7 @@ const Accounts = {
                     lastName: payload.lastName,
                     email: payload.email,
                     password: payload.password,
-<<<<<<< HEAD
-=======
                     numOfPoi: 0,
->>>>>>> release/0.2.0
                     scope: ['user']
                 });
                 user = await newUser.save();
@@ -112,10 +109,7 @@ const Accounts = {
                 }
                 user.comparePassword(password);
                 request.cookieAuth.set({ id: user.id, scope: user.scope });
-<<<<<<< HEAD
 
-=======
->>>>>>> release/0.2.0
                 return h.redirect('/home');
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
@@ -132,7 +126,6 @@ const Accounts = {
 
     // show user settings
     showSettings: {
-         auth: {scope: ['admin']},
          handler: async function(request, h) {
             try {
                 const id = request.auth.credentials.id;

@@ -2,7 +2,7 @@
 const User = require('../models/user');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
-const Utils = require('./utils');
+const Utils = require('../utils/isAdmin');
 const PointOfInterest = require('../models/poi')
 const Admin = {
     adminDashboard: {
@@ -26,6 +26,7 @@ const Admin = {
         }
     },
     deleteUser: {
+        auth: {scope: ['admin']},
         handler: async function (request, h) {
             try {
                 const id = request.params.id;
