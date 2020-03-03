@@ -101,6 +101,7 @@ const Poi = {
         validate: {
             payload: {
                 name: Joi.string().required(),
+                category: Joi.string().required(),
                 description: Joi.string().allow('').allow(null),
                 image: Joi.string().allow('').allow(null),
                 latitude: Joi.number().required(),
@@ -125,6 +126,7 @@ const Poi = {
                 const poi_id = request.params.id;
                 const poi = await PointOfInterest.findById(poi_id);
                 poi.name = userEdit.name;
+                poi.category = userEdit.category;
                 poi.description = userEdit.description;
                 if (userEdit.image != '' && userEdit.image != null) {
 

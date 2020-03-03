@@ -1,10 +1,22 @@
 <section class="ui raised segment">
-    <h2>ADD A POINT OF INTEREST</h2>
+    <h2>  <i class="teal large plus circle icon"></i>ADD A NEW POINT OF INTEREST</h2>
         <form class="ui segment form" action="/addpoi" method="POST">
             <div class="field">
                 <label>Name of POI</label>
                 <input type="text" name="name" placeholder="Give your POI a name here" required>
             </div>
+            
+            <div class="field">
+                <label>Category</label>
+                <select name="category" class="ui fluid dropdown">
+                    <option value="Waterford Greenway">Waterford Greenway</option>
+                    <option value="Great Eastern Greenway">Great Eastern Greenway</option>
+                    <option value="Great Western Greenway">Great Western Greenway </option>
+                    <option value="Boyne Greenway">Boyne Greenway</option>
+                </select>
+            </div>
+
+
             <div class="field">
                 <label>Description</label>
                 <input type="text" name="description" placeholder="Give your POI a description" />

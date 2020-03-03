@@ -58,10 +58,7 @@ const Accounts = {
                     lastName: payload.lastName,
                     email: payload.email,
                     password: payload.password,
-<<<<<<< HEAD
-=======
                     numOfPoi: 0,
->>>>>>> release/0.2.0
                     scope: ['user']
                 });
                 user = await newUser.save();
@@ -112,10 +109,7 @@ const Accounts = {
                 }
                 user.comparePassword(password);
                 request.cookieAuth.set({ id: user.id, scope: user.scope });
-<<<<<<< HEAD
 
-=======
->>>>>>> release/0.2.0
                 return h.redirect('/home');
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
