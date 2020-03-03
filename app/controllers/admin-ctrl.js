@@ -50,6 +50,7 @@ const Admin = {
                         lastName: user.lastName.toUpperCase(),
                         poi: poi_list,
                         isadmin: true,
+                        onlyusercanview: true,
                     });
 
             }catch (err) {
