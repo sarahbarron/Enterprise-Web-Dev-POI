@@ -1,0 +1,58 @@
+{
+  "users": {
+    "_model": "User",
+    "homer": {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "secret",
+      "scope": "user"
+    },
+    "marge": {
+      "firstName": "Marge",
+      "lastName": "Simpson",
+      "email": "marge@simpson.com",
+      "password": "secret",
+      "scope": "admin"
+    },
+    "bart": {
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "email": "bart@simpson.com",
+      "password": "secret",
+      "scope": "user"
+    }
+  },
+    "poi": {
+    "_model": "Poi",
+      "one": {
+        "name": "POI ONE",
+        "description": "Description One",
+        "image": "one.jpg",
+        "categories": "hills",
+        "longitude": 34324,
+        "latitude": 324,
+        "user": "->users.marge"
+      },
+      "three": {
+        "name": "POI three",
+        "description": "Description 3",
+        "image": "three.jpg",
+        "categories": "hills 3",
+        "longitude": 343,
+        "latitude": 34,
+        "user": "->users.bart"
+
+      },
+      "two": {
+        "name": "POI Two",
+        "description": "Description Two",
+        "image": "two.jpg",
+        "categories": "hills 2",
+        "longitude": 343,
+        "latitude": 32,
+        "user": "->users.homer"
+      }
+
+    }
+  }

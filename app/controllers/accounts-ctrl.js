@@ -2,6 +2,8 @@
 const User = require('../models/user');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
+const Utils = require('./utils');
+
 
 const Accounts = {
     index: {
@@ -56,6 +58,10 @@ const Accounts = {
                     lastName: payload.lastName,
                     email: payload.email,
                     password: payload.password,
+<<<<<<< HEAD
+=======
+                    numOfPoi: 0,
+>>>>>>> release/0.2.0
                     scope: ['user']
                 });
                 user = await newUser.save();
@@ -106,7 +112,10 @@ const Accounts = {
                 }
                 user.comparePassword(password);
                 request.cookieAuth.set({ id: user.id, scope: user.scope });
+<<<<<<< HEAD
 
+=======
+>>>>>>> release/0.2.0
                 return h.redirect('/home');
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
@@ -128,7 +137,10 @@ const Accounts = {
             try {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
-                return h.view('settings', { title: 'Donation Settings', user: user });
+                const scope = user.scope;
+                const isadmin = Utils.isAdmin(scope);
+
+                return h.view('settings', { title: 'Donation Settings', user: user, isadmin: isadmin });
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
             }

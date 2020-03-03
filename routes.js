@@ -1,6 +1,6 @@
 const Poi = require('./app/controllers/poi-ctrl')
 const Accounts = require('./app/controllers/accounts-ctrl')
-
+const Admin = require('./app/controllers/admin-ctrl')
 module.exports = [
     // Routes for authentication
     { method: 'GET', path: '/', config: Accounts.index },
@@ -12,12 +12,24 @@ module.exports = [
 
     // Routes for points of interest
     { method: 'GET', path: '/home', config: Poi.home },
-    { method: 'GET', path: '/allpois', config: Poi.allpois},
     { method: 'POST', path: '/addpoi', config: Poi.addpoi},
+    { method: 'GET', path: '/delete-poi/{id}', config: Poi.deletepoi},
+    { method: 'GET', path: '/update-poi/{id}', config: Poi.showUpdatePoi},
+    { method: 'POST', path: '/update-poi/{id}', config: Poi.updatePoi},
 
     // routes for settings
+<<<<<<< HEAD
     { method: 'GET', path: '/settings', config: Accounts.showSettings },
     { method: 'POST', path: '/settings', config: Accounts.updateSettings},
+=======
+    {method: 'GET', path: '/settings', config: Accounts.showSettings},
+    {method: 'POST', path: '/settings', config: Accounts.updateSettings },
+
+    // admin
+    {method: 'GET', path: '/admin-dashboard', config: Admin.adminDashboard},
+    {method: 'GET', path: '/delete-user/{id}', config: Admin.deleteUser},
+    {method: 'GET', path: '/view-user/{id}', config: Admin.viewUser},
+>>>>>>> release/0.2.0
     {
         method: 'GET',
         path: '/{param*}',
@@ -28,4 +40,5 @@ module.exports = [
         },
         options: { auth: false}
     }
+
 ];

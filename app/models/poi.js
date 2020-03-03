@@ -14,7 +14,7 @@ const PoiSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
 });
 
 module.exports = Mongoose.model('Poi', PoiSchema);
