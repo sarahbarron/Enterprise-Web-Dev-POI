@@ -15,6 +15,8 @@ module.exports = [
     { method: 'GET', path: '/allpois', config: Poi.allpois},
     { method: 'POST', path: '/addpoi', config: Poi.addpoi},
     { method: 'GET', path: '/delete-poi/{id}', config: Poi.deletepoi},
+    { method: 'GET', path: '/update-poi/{id}', config: Poi.showUpdatePoi},
+    { method: 'POST', path: '/update-poi/{id}', config: Poi.updatePoi},
 
     // routes for settings
     {method: 'GET', path: '/settings', config: Accounts.showSettings},

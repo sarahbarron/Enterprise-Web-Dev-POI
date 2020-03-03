@@ -10,9 +10,8 @@
                     <th>Image</th>
                     <th>Location</th>
                     <th>Added By</th>
-                    {{#if notadmin}}
                     <th></th>
-                    {{/if}}
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,18 +21,21 @@
                         <td> {{description}} </td>
                         <td> {{image}} </td>
                         <td> {{longitude}}, {{latitude}} </td>
-                        <td>{{user.firstName}} {{user.lastName}}</td>
-                        {{#if ../notadmin}}
+                        <td> {{user.firstName}} {{user.lastName}}</td>
+
                         <td>
                             <a href="/delete-poi/{{_id}}" class="ui icon button">
                                 <i class="icon trash"></i>
                             </a>
                         </td>
-                        {{/if}}
+                        <td>
+                            <a href="/update-poi/{{_id}}" class="ui icon button">Update</a>
+                        </td>
                     </tr>
                 {{/each}}
                 </tbody>
             </table>
+            {{> error }}
         </article>
     </div>
 </section>
