@@ -39,6 +39,7 @@ async function init() {
         isCached: false,
     });
 
+
     // Initialize the cookie plugin
     server.auth.strategy('session', 'cookie', {
         cookie: {
@@ -47,8 +48,10 @@ async function init() {
             isSecure: false
         },
     });
+
     // Set up the session as the default strategy for all routes
     server.auth.default('session');
+
 
     // Initialize routes
     server.route(require('./routes'));

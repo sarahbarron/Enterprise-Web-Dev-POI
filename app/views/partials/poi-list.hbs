@@ -1,8 +1,8 @@
 <section class="ui raised segment">
     <div class="ui grid">
-        <aside class="ui four wide column"><img src="images/waterford_greenway.jpg" class="ui medium image"/></aside>
-        <article class="eight wide column">
-            <table class="ui celled table segment">
+        <aside class="ui four wide column"><img src="../images/poi.jpg" class="ui medium image"/></aside>
+        <article class="twelve wide column">
+            <table class="ui fixed table segment">
                 <thead>
                 <tr>
                     <th>Name</th>
@@ -10,6 +10,10 @@
                     <th>Image</th>
                     <th>Location</th>
                     <th>Added By</th>
+                    {{#if onlyusercanview}}
+                    <th></th>
+                    <th></th>
+                    {{/if}}
                 </tr>
                 </thead>
                 <tbody>
@@ -19,11 +23,24 @@
                         <td> {{description}} </td>
                         <td> {{image}} </td>
                         <td> {{longitude}}, {{latitude}} </td>
-                        <td>{{user.firstName}} {{user.lastName}}</td>
+                        <td> {{user.firstName}} {{user.lastName}}</td>
+<!--               Only a user can update and delete their pois so don't allow admin access to these functions-->
+                        {{#if ../onlyusercanview}}
+                            <td>
+                                <a href="/update-poi/{{_id}}" class="ui icon button">Update</a>
+                            </td>
+                            <td>
+                            <a href="/delete-poi/{{_id}}" class="ui icon button">
+                                <i class="icon trash"></i>
+                            </a>
+                            </td>
+
+                        {{/if}}
                     </tr>
                 {{/each}}
                 </tbody>
             </table>
+            {{> error }}
         </article>
     </div>
 </section>
