@@ -2,7 +2,6 @@
 const dotenv = require('dotenv')
 // if the .env file cant be found handle the error
 const result = dotenv.config();
-
 if (result.error) {
     console.log(result.error.message);
     process.exit(1);
@@ -46,7 +45,7 @@ async function init() {
             name: 'poi',
             password: process.env.COOKIE_PASSWORD,
             isSecure: false
-        },
+        }
     });
 
     // Set up the session as the default strategy for all routes
@@ -55,6 +54,7 @@ async function init() {
 
     // Initialize routes
     server.route(require('./routes'));
+
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
 }

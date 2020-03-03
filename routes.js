@@ -18,6 +18,10 @@ module.exports = [
     { method: 'POST', path: '/update-poi/{id}', config: Poi.updatePoi},
 
     // routes for settings
+<<<<<<< HEAD
+    { method: 'GET', path: '/settings', config: Accounts.showSettings },
+    { method: 'POST', path: '/settings', config: Accounts.updateSettings},
+=======
     {method: 'GET', path: '/settings', config: Accounts.showSettings},
     {method: 'POST', path: '/settings', config: Accounts.updateSettings },
 
@@ -25,6 +29,7 @@ module.exports = [
     {method: 'GET', path: '/admin-dashboard', config: Admin.adminDashboard},
     {method: 'GET', path: '/delete-user/{id}', config: Admin.deleteUser},
     {method: 'GET', path: '/view-user/{id}', config: Admin.viewUser},
+>>>>>>> release/0.2.0
     {
         method: 'GET',
         path: '/{param*}',
@@ -33,7 +38,7 @@ module.exports = [
                 path: './public'
             }
         },
-        options: { auth: false }
+        options: { auth: false}
     }
 
 ];
