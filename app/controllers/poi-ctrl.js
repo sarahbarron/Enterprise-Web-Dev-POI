@@ -6,12 +6,6 @@ const Joi = require('@hapi/joi');
 
 const Poi = {
     home: {
-        handler: function(request, h) {
-            return h.view('home', { title: 'Points of Interest' });
-        }
-    },
-
-    allpois: {
         handler: async function(request, h) {
             try {
                 const id = request.auth.credentials.id;
@@ -19,13 +13,13 @@ const Poi = {
                 const poi_list = await PointOfInterest.find({user: user}).populate('user').lean();
                 const scope = user.scope;
                 const isadmin = Utils.isAdmin(scope);
-                const notadmin = Utils.notAdmin(scope);
-                return h.view('allpois',
+
+                return h.view('home',
                     {
-                        title: 'All created POIs',
+                        title: 'Points Of Interest',
                         poi: poi_list,
                         isadmin: isadmin,
-                        notadmin: notadmin
+                        onlyusercanview: true
                     });
             }catch (err) {
                 return h.view('login', {errors:[{message: err.message}]})
@@ -58,7 +52,7 @@ const Poi = {
                 await user.save();
 
                 // redirect to view all POI's
-                return h.redirect('/allpois')
+                return h.redirect('/home')
             }catch(err){
                 return h.view('main', {errors: [{message: err.message}]})
             }
@@ -77,7 +71,7 @@ const Poi = {
                 user.numOfPoi = numOfPoi - 1;
                 await user.save();
 
-                return h.redirect('/allpois')
+                return h.redirect('/home')
             }
             catch (err) {
                 return h.view('main', {errors: [{message: err.message}]})
@@ -117,7 +111,7 @@ const Poi = {
             },
             failAction: function(request, h, error) {
                 return h
-                    .view('allpois', {
+                    .view('home', {
                         title: 'Failed to update POI '+error.details,
                         errors: error.details
                     })
@@ -131,9 +125,7 @@ const Poi = {
                 const poi_id = request.params.id;
                 const poi = await PointOfInterest.findById(poi_id);
                 poi.name = userEdit.name;
-                if (userEdit.description != '' && userEdit.description != null) {
-                    poi.description = userEdit.description;
-                }
+                poi.description = userEdit.description;
                 if (userEdit.image != '' && userEdit.image != null) {
 
                     poi.image = userEdit.image;
@@ -141,7 +133,7 @@ const Poi = {
                 poi.longitude = userEdit.longitude;
                 poi.latitude = userEdit.latitude;
                 await poi.save();
-                return h.redirect('/allpois');
+                return h.redirect('/home');
 
             } catch (err) {
                 return h.view('main', { errors: [{ message: err.message }] });

@@ -6,6 +6,7 @@ const Utils = require('./utils');
 const PointOfInterest = require('../models/poi')
 const Admin = {
     adminDashboard: {
+        auth: {scope: 'admin'},
         handler: async function(request, h) {
             try {
                 const id = request.auth.credentials.id;
@@ -37,6 +38,7 @@ const Admin = {
     },
 
     viewUser:{
+        auth: {scope: 'admin'},
         handler: async function(request, h){
             try{
                 const id = request.params.id;
@@ -50,7 +52,7 @@ const Admin = {
                         lastName: user.lastName.toUpperCase(),
                         poi: poi_list,
                         isadmin: true,
-                        onlyusercanview: true,
+                        onlyusercanview: false,
                     });
 
             }catch (err) {

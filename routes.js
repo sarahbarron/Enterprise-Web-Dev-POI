@@ -12,7 +12,6 @@ module.exports = [
 
     // Routes for points of interest
     { method: 'GET', path: '/home', config: Poi.home },
-    { method: 'GET', path: '/allpois', config: Poi.allpois},
     { method: 'POST', path: '/addpoi', config: Poi.addpoi},
     { method: 'GET', path: '/delete-poi/{id}', config: Poi.deletepoi},
     { method: 'GET', path: '/update-poi/{id}', config: Poi.showUpdatePoi},

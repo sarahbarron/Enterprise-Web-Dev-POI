@@ -1,11 +1,10 @@
 <nav class="ui inverted menu">
-    <header class="header item"><a href="/"> Points of Interest List </a></header>
+    <header class="header item"><a href="/home"> Points of Interest List </a></header>
     <div class="right menu">
         <a id="home"   class= "item" href="/home">Home</a>
         {{#if isadmin}}
             <a href="/admin-dashboard" id="users" class="item">View Users</a>
         {{/if}}
-        <a id="allpois" class= "item" href="/allpois">View My POIs</a>
         <a id="settings" class= "item" href="/settings"> <i class="icon user"></i></a>
         <a id="logout" class= "item" href="/logout">Logout</a>
     </div>

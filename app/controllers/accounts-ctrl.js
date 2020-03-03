@@ -109,12 +109,7 @@ const Accounts = {
                 }
                 user.comparePassword(password);
                 request.cookieAuth.set({ id: user.id, scope: user.scope });
-                const scope = user.scope;
-                const isadmin = Utils.isAdmin(scope)
-                return h.view('home',
-                    {
-                        isadmin: isadmin,
-                    });
+                return h.redirect('/home');
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
             }
@@ -130,7 +125,6 @@ const Accounts = {
 
     // show user settings
     showSettings: {
-        auth: {scope: 'admin'},
         handler: async function(request, h) {
             try {
                 const id = request.auth.credentials.id;
