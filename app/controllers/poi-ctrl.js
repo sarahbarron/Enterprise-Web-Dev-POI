@@ -1,6 +1,6 @@
 const PointOfInterest = require('../models/poi');
 const User = require('../models/user');
-const Utils = require('./utils');
+const Utils = require('../utils/isAdmin');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 
@@ -18,6 +18,8 @@ const Poi = {
                     {
                         title: 'Points Of Interest',
                         poi: poi_list,
+                        firstName: user.firstName.toUpperCase(),
+                        lastName: user.lastName.toUpperCase(),
                         isadmin: isadmin,
                         onlyusercanview: true
                     });
@@ -140,6 +142,23 @@ const Poi = {
             } catch (err) {
                 return h.view('main', { errors: [{ message: err.message }] });
 
+            }
+        }
+    },
+
+    showSinglePoi: {
+        handler: async function(request, h) {
+            try {
+                const poi_id = request.params.id;
+                const poi = await PointOfInterest.findById(poi_id).lean();
+                const user_id = request.auth.credentials.id;
+                const user = await User.findById(user_id).lean();
+                const scope = user.scope;
+                const isadmin = Utils.isAdmin(scope);
+
+                return h.view('view-poi', { title: 'View Single POI', poi: poi, isadmin: isadmin });
+            } catch (err) {
+                return h.view('login', { errors: [{ message: err.message }] });
             }
         }
     },

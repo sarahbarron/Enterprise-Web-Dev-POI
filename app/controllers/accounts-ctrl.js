@@ -2,7 +2,7 @@
 const User = require('../models/user');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
-const Utils = require('./utils');
+const Utils = require('../utils/isAdmin');
 
 
 const Accounts = {
@@ -126,7 +126,6 @@ const Accounts = {
 
     // show user settings
     showSettings: {
-         auth: {scope: ['admin']},
          handler: async function(request, h) {
             try {
                 const id = request.auth.credentials.id;
