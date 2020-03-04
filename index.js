@@ -1,14 +1,7 @@
 'use strict';
 const dotenv = require('dotenv')
 
-// if the .env file cant be found handle the error
-const result = dotenv.config();
-if (result.error) {
-    console.log(result.error.message);
-    process.exit(1);
-}
-
-const ImageStore = require('./app/utils/image-store')
+const ImageStore = require('./app/utils/image-store');
 const Hapi = require('@hapi/hapi');
 
 const server = Hapi.server({
@@ -22,10 +15,15 @@ server.validator(require('@hapi/joi'));
 const credentials = {
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_KEY,
-    api_secret: process.env.CLOUDINARAY_SECRET
+    api_secret: process.env.CLOUDINARY_SECRET
 };
 
-
+// if the .env file cant be found handle the error
+const result = dotenv.config();
+if (result.error) {
+    console.log(result.error.message);
+    process.exit(1);
+}
 async function init() {
     // Register plugins
     await server.register(require('@hapi/inert'));

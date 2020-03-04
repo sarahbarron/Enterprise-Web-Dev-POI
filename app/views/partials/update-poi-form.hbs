@@ -1,6 +1,6 @@
 <section class="ui raised segment">
     <h2>UPDATE POINT OF INTEREST</h2>
-    <form class="ui segment form" action="/update-poi/{{poi._id}}" method="POST">
+    <form class="ui segment form" action="/update-poi/{{poi._id}}" method="POST" enctype="multipart/form-data">
         <div class="field">
             <label>Name of POI</label>
             <input type="text" name="name" value="{{poi.name}}" required />
@@ -23,7 +23,7 @@
         </div>
         <div class="field">
             <label>Upload an Image</label>
-            <input type="file" name="image" value="{{poi.image}}" />
+            <input type="file" name="image" value="{{poi.image}}"  accept="image/png, image/jpg">
         </div>
         <div class="field">
             <label>Location</label>

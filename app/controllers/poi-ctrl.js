@@ -3,7 +3,7 @@ const User = require('../models/user');
 const Utils = require('../utils/isAdmin');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
-
+const ImageStore = require('../utils/image-store')
 const Poi = {
     home: {
         handler: async function(request, h) {
@@ -32,10 +32,17 @@ const Poi = {
     addpoi:{
         handler: async function(request, h) {
             try {
-
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const data = request.payload;
+
+                //Upload image to cloudinary
+                const image_file = data.image;
+                if (Object.keys(image_file).length > 0)
+                {
+                    await ImageStore.uploadImage(image_file)
+                }
+
                 // Create the new POI
                 const newPoi = new PointOfInterest({
                     name: data.name,
@@ -56,9 +63,16 @@ const Poi = {
                 // redirect to view all POI's
                 return h.redirect('/home')
             }catch(err){
-                return h.view('main', {errors: [{message: err.message}]})
+                return h.view('home', {errors: [{message: err.message}]})
             }
-        }},
+        },
+        payload:{
+            multipart: true,
+            output: 'data',
+            maxBytes: 209715200,
+            parse: true
+        }
+        },
     deletepoi:{
         handler: async function(request, h) {
             try {
