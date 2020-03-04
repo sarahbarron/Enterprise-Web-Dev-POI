@@ -11,7 +11,7 @@ const Poi = {
             try {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
-                const poi_list = await PointOfInterest.find({user: user}).populate('user').lean();
+                const poi_list = await PointOfInterest.find({user: user}).populate('user').populate('image').lean();
                 const scope = user.scope;
                 const isadmin = Utils.isAdmin(scope);
 
@@ -63,7 +63,7 @@ const Poi = {
                     });
                     await newImage.save();
                 }
-                newPoi.images.push(newImage._id);
+                newPoi.image.push(newImage._id);
                 newPoi.save();
 
                 // Increment num of pois for the user
@@ -175,7 +175,7 @@ const Poi = {
         handler: async function(request, h) {
             try {
                 const poi_id = request.params.id;
-                const poi = await PointOfInterest.findById(poi_id).lean();
+                const poi = await PointOfInterest.findById(poi_id).populate('image').lean();
                 const user_id = request.auth.credentials.id;
                 const user = await User.findById(user_id).lean();
                 const scope = user.scope;

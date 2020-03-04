@@ -19,13 +19,6 @@ const ImageStore = {
         return result.resources;
     },
 
-    // getPoiImages: async function(poi){
-    //     let images[];
-    //     for (i=0; i< poi.images.length; i++){
-    //
-    //     }
-    // },
-
     uploadImage: async function(imagefile) {
         await writeFile('./public/temp.img', imagefile);
         return await cloudinary.uploader.upload('./public/temp.img');

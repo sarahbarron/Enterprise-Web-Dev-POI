@@ -15,7 +15,7 @@ const PoiSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    images:[{
+    image:[{
         type: Schema.Types.ObjectID,
         ref: 'Image'
     }]});
