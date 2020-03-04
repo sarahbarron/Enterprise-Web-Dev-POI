@@ -1,5 +1,6 @@
 const PointOfInterest = require('../models/poi');
 const User = require('../models/user');
+const Image = require('../models/image')
 const Utils = require('../utils/isAdmin');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
@@ -36,24 +37,34 @@ const Poi = {
                 const user = await User.findById(id);
                 const data = request.payload;
 
-                //Upload image to cloudinary
-                const image_file = data.image;
-                if (Object.keys(image_file).length > 0)
-                {
-                    await ImageStore.uploadImage(image_file)
-                }
-
                 // Create the new POI
                 const newPoi = new PointOfInterest({
                     name: data.name,
                     description: data.description,
-                    image: data.image,
                     category: data.category,
                     latitude: data.latitude,
                     longitude: data.longitude,
                     user: user._id
                 });
                 await newPoi.save();
+
+                //Upload image to cloudinary & save details to DB
+                const image_file = data.image;
+                let newImage;
+                if (Object.keys(image_file).length > 0)
+                {
+                    const uploaded_image = await ImageStore.uploadImage(image_file);
+                    const public_id = uploaded_image.public_id;
+                    const url = uploaded_image.url;
+                    newImage = new Image({
+                        public_id: public_id,
+                        url: url,
+                        poi: newPoi._id
+                    });
+                    await newImage.save();
+                }
+                newPoi.images.push(newImage._id);
+                newPoi.save();
 
                 // Increment num of pois for the user
                 let numOfPoi = parseInt(user.numOfPoi);

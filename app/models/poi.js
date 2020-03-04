@@ -9,13 +9,15 @@ const PoiSchema = new Schema({
     name: String,
     category: String,
     description: String,
-    image: String,
     longitude: Number,
     latitude: Number,
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-});
+    images:[{
+        type: Schema.Types.ObjectID,
+        ref: 'Image'
+    }]});
 
 module.exports = Mongoose.model('Poi', PoiSchema);
