@@ -5,6 +5,7 @@ const Utils = require('../utils/isAdmin');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const ImageStore = require('../utils/image-store')
+
 const Poi = {
     home: {
         handler: async function(request, h) {

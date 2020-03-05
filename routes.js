@@ -1,6 +1,7 @@
 const Poi = require('./app/controllers/poi-ctrl')
 const Accounts = require('./app/controllers/accounts-ctrl')
 const Admin = require('./app/controllers/admin-ctrl')
+const Image = require('./app/controllers/image-ctrl')
 module.exports = [
     // Routes for authentication
     { method: 'GET', path: '/', config: Accounts.index },
@@ -28,6 +29,8 @@ module.exports = [
     {method: 'GET', path: '/delete-user/{id}', config: Admin.deleteUser},
     {method: 'GET', path: '/view-user/{id}', config: Admin.viewUser},
 
+    // Images
+    {method: 'GET', path: '/view-poi/delete-image/{img_id}', config: Image.deleteImage},
     {
         method: 'GET',
         path: '/{param*}',

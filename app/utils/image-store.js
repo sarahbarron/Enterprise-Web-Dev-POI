@@ -4,6 +4,9 @@ const fs = require('fs');
 const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
 
+const Poi = require('../models/poi');
+const Image = require('../models/image');
+
 const ImageStore = {
     configure: function() {
         const credentials = {
@@ -24,8 +27,32 @@ const ImageStore = {
         return await cloudinary.uploader.upload('./public/temp.img');
     },
 
-    deleteImage: async function(id) {
-        await cloudinary.v2.uploader.destroy(id, {});
+    deleteImage: async function(image_id) {
+        try {
+            const image_obj = await Image.findById(image_id).populate('poi').lean();
+            const image_public_id = image_obj.public_id;
+            const poi_id = image_obj.poi._id.toString();
+
+            // Pull the objectId reference from the POI schema
+            await Poi.findByIdAndUpdate(
+                {"_id": poi_id}, // poi to delete from
+                {
+                    $pull: {image:{$in:[image_obj]}} // look for the Image ObjectId and remove it
+                },
+                { safe: true },
+                function(err) {
+                    if(err){
+                        console.log(err);
+                    }
+                });
+
+            // Delete image document from MongoDB
+            await Image.findByIdAndDelete(image_id);
+
+            await cloudinary.v2.uploader.destroy(image_public_id, {});
+        }catch (e) {
+            console.log("Delete Image Error: "+ e);
+        }
     },
 
 };
