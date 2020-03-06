@@ -5,7 +5,7 @@ const Utils = require('../utils/isAdmin');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const ImageStore = require('../utils/image-store');
-
+const Category = require('../models/categories')
 
 const Poi = {
     home: {
@@ -13,10 +13,10 @@ const Poi = {
             try {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
-                const poi_list = await PointOfInterest.find({user: user}).populate('user').populate('image').lean();
+                const poi_list = await PointOfInterest.find({user: user}).populate('user').populate('image').populate('category').lean();
                 const scope = user.scope;
                 const isadmin = Utils.isAdmin(scope);
-
+                const category = await Category.find().lean();
                 return h.view('home',
                     {
                         title: 'Points Of Interest',
@@ -24,7 +24,8 @@ const Poi = {
                         firstName: user.firstName.toUpperCase(),
                         lastName: user.lastName.toUpperCase(),
                         isadmin: isadmin,
-                        onlyusercanview: true
+                        onlyusercanview: true,
+                        categories: category
                     });
             }catch (err) {
                 return h.view('login', {errors:[{message: err.message}]})
@@ -38,12 +39,16 @@ const Poi = {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const data = request.payload;
+                const rawCategory = request.payload.category;
+                const category = await Category.findOne({
+                    name : rawCategory
+                });
 
                 // Create the new POI
                 const newPoi = new PointOfInterest({
                     name: data.name,
                     description: data.description,
-                    category: data.category,
+                    category: category._id,
                     latitude: data.latitude,
                     longitude: data.longitude,
                     user: user._id
@@ -52,21 +57,7 @@ const Poi = {
 
                 // //Upload image to cloudinary & save details to DB
                 const image_file = data.image;
-                // let newImage;
-                // if (Object.keys(image_file).length > 0)
-                // {
-                const uploaded_image = await ImageStore.uploadImage(image_file, newPoi._id);
-                //     const public_id = uploaded_image.public_id;
-                //     const url = uploaded_image.url;
-                //     newImage = new Image({
-                //         public_id: public_id,
-                //         url: url,
-                //         poi: newPoi._id
-                //     });
-                //     await newImage.save();
-                // }
-                // newPoi.image.push(newImage._id);
-                // newPoi.save();
+                await ImageStore.uploadImage(image_file, newPoi._id);
 
                 // Increment num of pois for the user
                 let numOfPoi = parseInt(user.numOfPoi);
@@ -112,13 +103,14 @@ const Poi = {
         handler: async function(request, h) {
             try {
                 const poi_id = request.params.id;
-                const poi = await PointOfInterest.findById(poi_id).lean();
+                const poi = await PointOfInterest.findById(poi_id).populate('image').populate('category').lean();
                 const user_id = request.auth.credentials.id;
                 const user = await User.findById(user_id).lean();
                 const scope = user.scope;
                 const isadmin = Utils.isAdmin(scope);
+                const category = await Category.find().lean();
 
-                return h.view('update-poi', { title: 'Update POI', poi: poi, isadmin: isadmin });
+                return h.view('update-poi', { title: 'Update POI', poi: poi, isadmin: isadmin, categories: category});
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
             }
@@ -132,7 +124,6 @@ const Poi = {
                 name: Joi.string().required(),
                 category: Joi.string().required(),
                 description: Joi.string().allow('').allow(null),
-                image: Joi.string().allow('').allow(null),
                 latitude: Joi.number().required(),
                 longitude: Joi.number().required(),
             },
@@ -154,13 +145,14 @@ const Poi = {
                 const userEdit = request.payload;
                 const poi_id = request.params.id;
                 const poi = await PointOfInterest.findById(poi_id);
-                poi.name = userEdit.name;
-                poi.category = userEdit.category;
-                poi.description = userEdit.description;
-                if (userEdit.image != '' && userEdit.image != null) {
+                const rawCategory = userEdit.category;
+                const category = await Category.findOne({
+                    name : rawCategory
+                }).lean();
 
-                    poi.image = userEdit.image;
-                }
+                poi.name = userEdit.name;
+                poi.category = category._id;
+                poi.description = userEdit.description;
                 poi.longitude = userEdit.longitude;
                 poi.latitude = userEdit.latitude;
                 await poi.save();
@@ -170,14 +162,14 @@ const Poi = {
                 return h.view('main', { errors: [{ message: err.message }] });
 
             }
-        }
+        },
     },
 
     showSinglePoi: {
         handler: async function(request, h) {
             try {
                 const poi_id = request.params.id;
-                const poi = await PointOfInterest.findById(poi_id).populate('image').lean();
+                const poi = await PointOfInterest.findById(poi_id).populate('image').populate('category').lean();
                 const user_id = request.auth.credentials.id;
                 const user = await User.findById(user_id).lean();
                 const scope = user.scope;

@@ -8,12 +8,12 @@
             
             <div class="field">
                 <label>Category</label>
-                <select name="category" class="ui fluid dropdown">
-                    <option value="Waterford Greenway">Waterford Greenway</option>
-                    <option value="Great Eastern Greenway">Great Eastern Greenway</option>
-                    <option value="Great Western Greenway">Great Western Greenway </option>
-                    <option value="Boyne Greenway">Boyne Greenway</option>
-                </select>
+
+                    <select name="category" class="ui fluid dropdown">
+                        {{#each categories}}
+                            <option value="{{name}}">{{name}}</option>
+                        {{/each}}
+                    </select>
             </div>
             <div class="field">
                 <label>Description</label>

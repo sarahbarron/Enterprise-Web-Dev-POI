@@ -1,7 +1,9 @@
-const Poi = require('./app/controllers/poi-ctrl')
-const Accounts = require('./app/controllers/accounts-ctrl')
-const Admin = require('./app/controllers/admin-ctrl')
-const Image = require('./app/controllers/image-ctrl')
+const Poi = require('./app/controllers/poi-ctrl');
+const Accounts = require('./app/controllers/accounts-ctrl');
+const Admin = require('./app/controllers/admin-ctrl');
+const Image = require('./app/controllers/image-ctrl');
+const Category = require('./app/controllers/categories-ctrl');
+
 module.exports = [
     // Routes for authentication
     { method: 'GET', path: '/', config: Accounts.index },
@@ -32,6 +34,10 @@ module.exports = [
     // Images
     {method: 'POST', path: '/addimage/{poi}', config: Image.uploadFile},
     {method: 'GET', path: '/view-poi/delete-image/{img_id}', config: Image.deleteImage},
+    {method: 'GET', path: '/update-poi/delete-image/{img_id}', config: Image.deleteImage},
+
+    // Category
+    {method: 'POST', path: '/add-category', config: Category.addCategory},
 
     {
         method: 'GET',
