@@ -28,7 +28,7 @@ const Category = {
                 console.log("Category-ctrl, addCategory: " + err);
             }
         }
-    }
+    },
 };
 
 module.exports = Category;

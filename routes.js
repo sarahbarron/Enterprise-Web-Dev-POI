@@ -38,6 +38,7 @@ module.exports = [
 
     // Category
     {method: 'POST', path: '/add-category', config: Category.addCategory},
+    { method: 'POST', path: '/home', config: Poi.home },
 
     {
         method: 'GET',

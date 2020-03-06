@@ -11,9 +11,17 @@ const Poi = {
     home: {
         handler: async function(request, h) {
             try {
+                const filter = request.payload;
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
-                const poi_list = await PointOfInterest.find({user: user}).populate('user').populate('category').lean().sort('-category');
+                let poi_list;
+                if (filter != null ){
+                    const filter_by_category = await Category.findOne({name: filter.category});
+                    poi_list = await PointOfInterest.find({user: user, category: filter_by_category}).populate('user').populate('category').lean().sort('-category');
+                }
+                else {
+                    poi_list = await PointOfInterest.find({user: user}).populate('user').populate('category').lean().sort('-category');
+                }
                 const scope = user.scope;
                 const isadmin = Utils.isAdmin(scope);
                 const category = await Category.find().lean().sort('name');
