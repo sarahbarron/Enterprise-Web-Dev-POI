@@ -1,4 +1,5 @@
 <section class="ui raised segment">
+    <h2>  <i class="teal large user icon"></i>List of Users</h2>
 {{#each users}}
     <div class="ui raised segment">
         <div class="ui grid">
@@ -8,7 +9,7 @@
                 </div>
                 <div class="column four wide">
                     {{!-- first and last name --}}
-                    <h2 class="ui header teal">
+                    <h2 class="ui header purple">
                         <a href="/view-user/{{_id}}">{{firstName}} {{lastName}}</a>
                     </h2>
                     {{!-- number of assessments --}}

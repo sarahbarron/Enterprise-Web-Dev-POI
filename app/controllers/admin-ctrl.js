@@ -11,7 +11,7 @@ const Admin = {
             try {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
-                const allusers = await User.find({scope: 'user'}).lean();
+                const allusers = await User.find({scope: 'user'}).lean().sort('lastName');
                 const scope = user.scope;
                 const isadmin = Utils.isAdmin(scope);
                 return h.view('admin-dashboard',
@@ -44,13 +44,13 @@ const Admin = {
             try{
                 const id = request.params.id;
                 const user = await User.findById(id);
-                const poi_list = await PointOfInterest.find({user: user}).populate('user').lean();
+                const poi_list = await PointOfInterest.find({user: user}).populate('user').populate('category').lean().sort('-category');
 
                 return h.view('user-pois',
                     {
                         title: 'View User',
-                        firstName: user.firstName.toUpperCase(),
-                        lastName: user.lastName.toUpperCase(),
+                        firstName: user.firstName,
+                        lastName: user.lastName,
                         poi: poi_list,
                         isadmin: true,
                         onlyusercanview: false,

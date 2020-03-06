@@ -1,12 +1,15 @@
 <section class="ui raised segment">
-    <h2>  <i class="teal large plus circle icon"></i>ADD A NEW CATEGORY</h2>
+    <h2>  <i class="teal large plus circle icon"></i>Add A New Category</h2>
     <form class="ui segment form" action="/add-category" method="POST" >
         <div class="field">
             <label>Category Name</label>
             <input type="text" name="name" placeholder="Give your POI a name here" required>
         </div>
-
-        <button class="ui teal submit button" value="submit">Add Category</button>
+        <section class="ui grid">
+            <div class="right floated column">
+                <button class="ui teal submit right floated button" value="submit">Add Category</button>
+            </div>
+        </section>
     </form>
     {{> error }}
 </section>

@@ -13,10 +13,10 @@ const Poi = {
             try {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
-                const poi_list = await PointOfInterest.find({user: user}).populate('user').populate('image').populate('category').lean();
+                const poi_list = await PointOfInterest.find({user: user}).populate('user').populate('category').lean().sort('-category');
                 const scope = user.scope;
                 const isadmin = Utils.isAdmin(scope);
-                const category = await Category.find().lean();
+                const category = await Category.find().lean().sort('name');
                 return h.view('home',
                     {
                         title: 'Points Of Interest',
@@ -103,7 +103,7 @@ const Poi = {
         handler: async function(request, h) {
             try {
                 const poi_id = request.params.id;
-                const poi = await PointOfInterest.findById(poi_id).populate('image').populate('category').lean();
+                const poi = await PointOfInterest.findById(poi_id).populate('image').populate('category').lean().sort('-category');
                 const user_id = request.auth.credentials.id;
                 const user = await User.findById(user_id).lean();
                 const scope = user.scope;

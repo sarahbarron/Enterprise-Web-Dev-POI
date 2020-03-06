@@ -1,9 +1,12 @@
 <section class="ui raised segment">
     <div class="ui grid row">
+
         <div class="column two wide"><i class="teal huge sync icon"></i></div>
         <div class="column ten wide"><h2>Update Point Of Interst</h2></div>
     </div>
-    <form class="ui segment form" action="/update-poi/{{poi._id}}" method="POST">
+    <div class = "ui grid row">
+        <div class="column 12 wide">
+            <form class="ui segment form" action="/update-poi/{{poi._id}}" method="POST">
         <div class="field">
             <label>Name of POI</label>
             <input type="text" name="name" value="{{poi.name}}" required>
@@ -36,8 +39,13 @@
                 </div>
             </div>
         </div>
-
-        <button class="ui teal submit button" value="Submit">UPDATE</button>
+        <section class="ui grid">
+            <div class="right floated column">
+                <button class="ui teal submit button" value="Submit">UPDATE</button>
+            </div>
+        </section>
     </form>
+    </div>
+    </div>
     {{> error }}
 </section>
