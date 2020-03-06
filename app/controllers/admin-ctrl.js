@@ -11,7 +11,7 @@ const Admin = {
             try {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
-                const allusers = await User.find().lean();
+                const allusers = await User.find({scope: 'user'}).lean();
                 const scope = user.scope;
                 const isadmin = Utils.isAdmin(scope);
                 return h.view('admin-dashboard',
