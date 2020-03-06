@@ -1,0 +1,19 @@
+<section class="ui 15 column middle aligned grid raised segment">
+    <div class="row">
+        <div class="column two wide"><i class="teal huge info icon"></i></div>
+        <div class="column thirteen wide"><h2>Add A New Image To The Gallery</h2></div>
+    </div>
+    <div class="row">
+        <div class="column two wide"></div>
+        <form class="ui segment form" action="/addimage/{{poi._id}}" method="POST" enctype="multipart/form-data">
+            <div class="field">
+                <label>Upload an Image</label>
+                <input type="file" name="image" accept="image/png, image/jpeg">
+            </div>
+            <button class="ui blue submit button" value="Upload">Add Image</button>
+        </form>
+    </div>
+        {{> error }}
+    </div>
+</section>
+

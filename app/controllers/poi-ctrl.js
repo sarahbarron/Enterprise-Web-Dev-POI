@@ -1,8 +1,11 @@
 const PointOfInterest = require('../models/poi');
 const User = require('../models/user');
+const Image = require('../models/image')
 const Utils = require('../utils/isAdmin');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
+const ImageStore = require('../utils/image-store');
+
 
 const Poi = {
     home: {
@@ -10,7 +13,7 @@ const Poi = {
             try {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
-                const poi_list = await PointOfInterest.find({user: user}).populate('user').lean();
+                const poi_list = await PointOfInterest.find({user: user}).populate('user').populate('image').lean();
                 const scope = user.scope;
                 const isadmin = Utils.isAdmin(scope);
 
@@ -32,21 +35,38 @@ const Poi = {
     addpoi:{
         handler: async function(request, h) {
             try {
-
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const data = request.payload;
+
                 // Create the new POI
                 const newPoi = new PointOfInterest({
                     name: data.name,
                     description: data.description,
-                    image: data.image,
                     category: data.category,
                     latitude: data.latitude,
                     longitude: data.longitude,
                     user: user._id
                 });
                 await newPoi.save();
+
+                // //Upload image to cloudinary & save details to DB
+                const image_file = data.image;
+                // let newImage;
+                // if (Object.keys(image_file).length > 0)
+                // {
+                const uploaded_image = await ImageStore.uploadImage(image_file, newPoi._id);
+                //     const public_id = uploaded_image.public_id;
+                //     const url = uploaded_image.url;
+                //     newImage = new Image({
+                //         public_id: public_id,
+                //         url: url,
+                //         poi: newPoi._id
+                //     });
+                //     await newImage.save();
+                // }
+                // newPoi.image.push(newImage._id);
+                // newPoi.save();
 
                 // Increment num of pois for the user
                 let numOfPoi = parseInt(user.numOfPoi);
@@ -56,9 +76,16 @@ const Poi = {
                 // redirect to view all POI's
                 return h.redirect('/home')
             }catch(err){
-                return h.view('main', {errors: [{message: err.message}]})
+                return h.view('home', {errors: [{message: err.message}]})
             }
-        }},
+        },
+        payload:{
+            multipart: true,
+            output: 'data',
+            maxBytes: 209715200,
+            parse: true
+        }
+        },
     deletepoi:{
         handler: async function(request, h) {
             try {
@@ -150,7 +177,7 @@ const Poi = {
         handler: async function(request, h) {
             try {
                 const poi_id = request.params.id;
-                const poi = await PointOfInterest.findById(poi_id).lean();
+                const poi = await PointOfInterest.findById(poi_id).populate('image').lean();
                 const user_id = request.auth.credentials.id;
                 const user = await User.findById(user_id).lean();
                 const scope = user.scope;
