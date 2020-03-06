@@ -4,7 +4,8 @@ const Image = require('../models/image')
 const Utils = require('../utils/isAdmin');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
-const ImageStore = require('../utils/image-store')
+const ImageStore = require('../utils/image-store');
+
 
 const Poi = {
     home: {
@@ -49,23 +50,23 @@ const Poi = {
                 });
                 await newPoi.save();
 
-                //Upload image to cloudinary & save details to DB
+                // //Upload image to cloudinary & save details to DB
                 const image_file = data.image;
-                let newImage;
-                if (Object.keys(image_file).length > 0)
-                {
-                    const uploaded_image = await ImageStore.uploadImage(image_file);
-                    const public_id = uploaded_image.public_id;
-                    const url = uploaded_image.url;
-                    newImage = new Image({
-                        public_id: public_id,
-                        url: url,
-                        poi: newPoi._id
-                    });
-                    await newImage.save();
-                }
-                newPoi.image.push(newImage._id);
-                newPoi.save();
+                // let newImage;
+                // if (Object.keys(image_file).length > 0)
+                // {
+                const uploaded_image = await ImageStore.uploadImage(image_file, newPoi._id);
+                //     const public_id = uploaded_image.public_id;
+                //     const url = uploaded_image.url;
+                //     newImage = new Image({
+                //         public_id: public_id,
+                //         url: url,
+                //         poi: newPoi._id
+                //     });
+                //     await newImage.save();
+                // }
+                // newPoi.image.push(newImage._id);
+                // newPoi.save();
 
                 // Increment num of pois for the user
                 let numOfPoi = parseInt(user.numOfPoi);

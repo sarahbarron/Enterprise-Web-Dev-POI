@@ -3,7 +3,7 @@ const cloudinary = require('cloudinary');
 const fs = require('fs');
 const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
-
+const ObjectId = require('mongodb').ObjectID;
 const Poi = require('../models/poi');
 const Image = require('../models/image');
 
@@ -22,9 +22,28 @@ const ImageStore = {
         return result.resources;
     },
 
-    uploadImage: async function(imagefile) {
-        await writeFile('./public/temp.img', imagefile);
-        return await cloudinary.uploader.upload('./public/temp.img');
+    uploadImage: async function(imagefile, poi_id) {
+        //Upload image to cloudinary & save details to DB
+        try {
+            const poi = await Poi.findById(poi_id);
+            let newImage;
+            if (Object.keys(imagefile).length > 0) {
+                await writeFile('./public/temp.img', imagefile);
+                const uploaded_image = await cloudinary.uploader.upload('./public/temp.img');
+                const public_id = uploaded_image.public_id;
+                const url = uploaded_image.url;
+                newImage = new Image({
+                    public_id: public_id,
+                    url: url,
+                    poi: poi_id
+                });
+                await newImage.save();
+            }
+            poi.image.push(ObjectId(newImage._id));
+            poi.save();
+        }catch (e) {
+            console.log("Image-store, upload-image: "+e);
+        }
     },
 
     deleteImage: async function(image_id) {
