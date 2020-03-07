@@ -7,11 +7,41 @@ const ObjectId = require('mongodb').ObjectID;
 
 const Category = {
     viewCategories: {
-        handler: async function(require,h){
+        handler: async function(request,h){
             try{
+                let filter = request.payload;
+                let poi_list;
+                let defaultcategory;
 
-                const categories = await CategoryModel.find().lean();
-                return h.view('categories', {categories: categories});
+                if(filter !=null)
+                {
+                    if (filter.category === "all")
+                    {
+                        filter = null;
+                    } else
+                    {
+                        const filter_by_category = await CategoryModel.findOne({name: filter.category}).lean();
+                        poi_list = await Poi.find({category: filter_by_category}).populate('user').populate('category').lean().sort('-category');
+                        defaultcategory = filter_by_category;
+                    }
+                }
+                if (filter == null) {
+                    const filter_by_category = await CategoryModel.find().lean().sort('name');
+                    poi_list = await Poi.find({category: filter_by_category}).populate('user').populate('category').lean().sort('-category');
+                    if (filter_by_category.length > 0)
+                    {
+                        defaultcategory = filter_by_category[0];
+                    }
+                }
+
+                const categories = await CategoryModel.find().lean().sort('name');
+                return h.view('categories', {
+                    categories: categories,
+                    poi: poi_list,
+                    defaultcategory: defaultcategory,
+                    onlyusercanview: false,
+                    isadmin: true
+                });
             }catch (err) {
                 console.log("Category-ctrl, viewCategories: " + err);
         }
@@ -32,13 +62,29 @@ const Category = {
                     });
                     await newCategory.save();
                 }
-                return h.redirect('/home')
+                return h.redirect('/categories');
 
             } catch (err) {
                 console.log("Category-ctrl, addCategory: " + err);
             }
         }
     },
+
+    deleteCategory: {
+        handler: async function (request, h)
+        {
+            try
+            {
+                const data = request.payload;
+                await CategoryModel.findOneAndDelete({name: data.category});
+                return h.redirect('/categories');
+
+            } catch (err)
+            {
+                console.log("Category-ctrl, deleteCategory: " + err);
+            }
+        }
+    }
 };
 
 module.exports = Category;

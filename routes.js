@@ -38,8 +38,10 @@ module.exports = [
 
     // Category
     {method: 'GET', path: '/categories', config: Category.viewCategories},
+    {method: 'POST', path: '/filter-category', config: Category.viewCategories},
     {method: 'POST', path: '/add-category', config: Category.addCategory},
-    { method: 'POST', path: '/home', config: Poi.home },
+    {method: 'POST', path: '/delete-category', config: Category.deleteCategory},
+    {method: 'POST', path: '/home', config: Poi.home },
 
     {
         method: 'GET',
