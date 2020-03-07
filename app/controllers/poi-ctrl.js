@@ -15,12 +15,16 @@ const Poi = {
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
                 let poi_list;
+                let defaultcategory;
                 if (filter != null ){
-                    const filter_by_category = await Category.findOne({name: filter.category});
+                    const filter_by_category = await Category.findOne({name: filter.category}).lean();
                     poi_list = await PointOfInterest.find({user: user, category: filter_by_category}).populate('user').populate('category').lean().sort('-category');
+                    defaultcategory = filter_by_category;
                 }
                 else {
                     poi_list = await PointOfInterest.find({user: user}).populate('user').populate('category').lean().sort('-category');
+                    const cat = await Category.find().lean().sort('name');
+                    defaultcategory = cat[0];
                 }
                 const scope = user.scope;
                 const isadmin = Utils.isAdmin(scope);
@@ -33,7 +37,8 @@ const Poi = {
                         lastName: user.lastName.toUpperCase(),
                         isadmin: isadmin,
                         onlyusercanview: true,
-                        categories: category
+                        categories: category,
+                        defaultcategory: defaultcategory
                     });
             }catch (err) {
                 return h.view('login', {errors:[{message: err.message}]})
