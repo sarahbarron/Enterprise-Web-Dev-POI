@@ -11,7 +11,12 @@ const Poi = {
     home: {
         handler: async function(request, h) {
             try {
-                const filter = request.payload;
+                let filter = request.payload;
+                if (filter != null) {
+                    if (filter.category === "all") {
+                        filter = null;
+                    }
+                }
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id).lean();
                 let poi_list;

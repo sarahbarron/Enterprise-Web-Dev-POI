@@ -9,6 +9,7 @@
                         <label>Categories</label>
                         <select name="category" class="ui fluid dropdown">
                             <option value="{{defaultcategory.name}}"></option>
+                            <option value="all">VIEW ALL</option>
                             {{#each categories}}
                                 <option value="{{name}}">{{name}}</option>
                             {{/each}}
