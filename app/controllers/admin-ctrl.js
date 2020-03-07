@@ -3,7 +3,9 @@ const User = require('../models/user');
 const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const Utils = require('../utils/isAdmin');
-const PointOfInterest = require('../models/poi')
+const PointOfInterest = require('../models/poi');
+const PoiUtils = require('../utils/poi-util');
+
 const Admin = {
     adminDashboard: {
         auth: {scope: 'admin'},
@@ -30,6 +32,17 @@ const Admin = {
         handler: async function (request, h) {
             try {
                 const id = request.params.id;
+                const user = await User.findById(id).lean();
+                const pois = await PointOfInterest.find({user: user});
+                if(pois.length > 0)
+                {
+                    let i;
+                    for (i = 0; pois.length > i; i++)
+                    {
+                        let poi_id = pois[i]._id;
+                        await PoiUtils.deletePoi(poi_id);
+                    }
+                }
                 await User.findByIdAndDelete(id);
                 return h.redirect('/admin-dashboard')
             } catch (err) {

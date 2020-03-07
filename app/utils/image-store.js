@@ -52,7 +52,7 @@ const ImageStore = {
             const image_public_id = image_obj.public_id;
             const poi_id = image_obj.poi._id.toString();
 
-            // Pull the objectId reference from the POI schema
+            // Delete the objectId reference from the POI schema
             await Poi.findByIdAndUpdate(
                 {"_id": poi_id}, // poi to delete from
                 {

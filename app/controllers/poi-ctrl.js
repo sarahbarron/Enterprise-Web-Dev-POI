@@ -6,7 +6,7 @@ const Boom = require('@hapi/boom');
 const Joi = require('@hapi/joi');
 const ImageStore = require('../utils/image-store');
 const Category = require('../models/categories')
-
+const poiUtil = require('../utils/poi-util')
 const Poi = {
     home: {
         handler: async function(request, h) {
@@ -100,15 +100,7 @@ const Poi = {
             try {
 
                 const poi_id = request.params.id;
-                await PointOfInterest.findByIdAndDelete(poi_id);
-
-                // Decrement num of pois
-                const user_id = request.auth.credentials.id;
-                const user = await User.findById(user_id);
-                let numOfPoi = parseInt(user.numOfPoi);
-                user.numOfPoi = numOfPoi - 1;
-                await user.save();
-
+                await poiUtil.deletePoi(poi_id);
                 return h.redirect('/home')
             }
             catch (err) {

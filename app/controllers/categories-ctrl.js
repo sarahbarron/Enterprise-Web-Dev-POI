@@ -2,11 +2,12 @@
 
 const CategoryModel = require('../models/categories');
 const Poi = require('../models/poi');
-const ObjectId = require('mongodb').ObjectID;
+const PoiUtils = require('../utils/poi-util')
 
 
 const Category = {
     viewCategories: {
+        auth: {scope: ['admin']},
         handler: async function(request,h){
             try{
                 let filter = request.payload;
@@ -47,6 +48,7 @@ const Category = {
         }
     }},
     addCategory: {
+        auth: {scope: ['admin']},
         handler: async function(request, h) {
             try {
                 const data = request.payload;
@@ -71,12 +73,43 @@ const Category = {
     },
 
     deleteCategory: {
+        auth: {scope: ['admin']},
         handler: async function (request, h)
         {
             try
             {
                 const data = request.payload;
-                await CategoryModel.findOneAndDelete({name: data.category});
+                let categories;
+                if (data.category === 'all')
+                {
+                    categories = await CategoryModel.find().lean();
+                }
+                else
+                {
+                    categories = await CategoryModel.find({name: data.category}).lean();
+                }
+                let num;
+                for (num=0; num<categories.length; num++)
+                {
+                    const category_id = categories[num]._id;
+                    const pois = await Poi.find({category: category_id});
+                    if (pois.length > 0)
+                    {
+                        let i;
+                        for (i = 0; i < pois.length; i++)
+                        {
+                            let poi_id = pois[i];
+                            PoiUtils.deletePoi(poi_id);
+                        }
+                    }
+                }
+                if (data.category === 'all')
+                {
+                    await CategoryModel.deleteMany();
+                }
+                else{
+                    await CategoryModel.findOneAndDelete({name: data.category});
+                }
                 return h.redirect('/categories');
 
             } catch (err)
