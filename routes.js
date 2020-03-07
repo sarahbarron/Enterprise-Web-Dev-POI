@@ -37,6 +37,7 @@ module.exports = [
     {method: 'GET', path: '/update-poi/delete-image/{img_id}', config: Image.deleteImage},
 
     // Category
+    {method: 'GET', path: '/categories', config: Category.viewCategories},
     {method: 'POST', path: '/add-category', config: Category.addCategory},
     { method: 'POST', path: '/home', config: Poi.home },
 

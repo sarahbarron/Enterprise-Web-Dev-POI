@@ -1,11 +1,11 @@
 {{> mainmenu _id="home"}}
 
 <section class="ui raised segment">
-    <section class="ui segment">
-        <div class="ui grid">
-            <h2>  <i class="teal large hiking icon"></i>LIST OF {{firstName}} {{lastName}}'S POINTS OF INTEREST</h2>
-        </div>
-    </section>
+
+    <div class="ui very padded grid">
+        <h2><i class="teal large hiking icon"></i>List of {{firstName}} {{lastName}}'s Points Of Interest</h2>
+    </div>
+
     {{> poi-list}}
     <div class="ui  divider"></div>
     {{> add-poi-form}}

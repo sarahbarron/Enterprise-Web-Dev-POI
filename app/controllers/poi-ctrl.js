@@ -38,8 +38,8 @@ const Poi = {
                     {
                         title: 'Points Of Interest',
                         poi: poi_list,
-                        firstName: user.firstName.toUpperCase(),
-                        lastName: user.lastName.toUpperCase(),
+                        firstName: user.firstName,
+                        lastName: user.lastName,
                         isadmin: isadmin,
                         onlyusercanview: true,
                         categories: category,

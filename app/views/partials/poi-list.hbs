@@ -2,26 +2,12 @@
     <div class="ui grid">
         <aside class="ui four wide column"><img src="../images/waterford_greenway.jpg" class="ui medium image"/></aside>
         <article class="twelve wide column">
-
-                <form class="ui segment form" action="/home" method="POST">
-
-                    <div class="field">
-                        <label>Categories</label>
-                        <select name="category" class="ui fluid dropdown">
-                            <option value="{{defaultcategory.name}}"></option>
-                            <option value="all">VIEW ALL</option>
-                            {{#each categories}}
-                                <option value="{{name}}">{{name}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-                    <section class="ui grid">
-                        <div class="right floated column">
-                            <button class="ui teal submit right floated button" value="Submit">Filter By Category</button>
-                        </div>
-                    </section>
+            <div class="ui raised very padded container segment">
+                <form class="ui form" action="/home" method="POST">
+                        {{> filter-category}}
                 </form>
             {{> error }}
+            </div>
             <table class="ui fixed table segment">
                 <thead>
                 <tr>

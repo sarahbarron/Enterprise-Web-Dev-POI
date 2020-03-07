@@ -1,0 +1,10 @@
+{{> mainmenu}}
+{{> add-category}}
+
+<div class="ui raised very padded container segment">
+    <h2>  <i class="teal large filter icon"></i>Filter By Category</h2>
+
+    <form class = "ui form" action="/filter-category" method="POST">
+        {{> filter-category}}
+    </form>
+</div>

@@ -6,6 +6,16 @@ const ObjectId = require('mongodb').ObjectID;
 
 
 const Category = {
+    viewCategories: {
+        handler: async function(require,h){
+            try{
+
+                const categories = await CategoryModel.find().lean();
+                return h.view('categories', {categories: categories});
+            }catch (err) {
+                console.log("Category-ctrl, viewCategories: " + err);
+        }
+    }},
     addCategory: {
         handler: async function(request, h) {
             try {
