@@ -46,12 +46,11 @@ const Gallery = {
     deleteImage: {
         handler: async function(request, h) {
             try {
-                // try this later
-                // const poi_id = image_obj.poi._id.toString();
+
                 const image_id = request.params.img_id;
                 await ImageStore.deleteImage(image_id);
                 return h.redirect('/home');
-                // return h.redirect("/view-poi/{{poi_id}}");
+
             } catch (err) {
                 console.log("DELETE ERROR" + err);
             }

@@ -7,13 +7,16 @@ const Schema = Mongoose.Schema;
 const PoiSchema = new Schema({
 
     name: String,
-    category: String,
     description: String,
     longitude: Number,
     latitude: Number,
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    category:{
+        type: Schema.Types.ObjectID,
+        ref: 'Category',
     },
     image:[{
         type: Schema.Types.ObjectID,

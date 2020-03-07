@@ -12,7 +12,7 @@
         <div class="row">
             <div class="column two wide"><i class="teal huge hiking icon"></i></div>
             <div class="column three wide"><h2>Category</h2></div>
-            <div class="column ten wide"><h3>{{poi.category}}</h3></div>
+            <div class="column ten wide"><h3>{{poi.category.name}}</h3></div>
         </div>
     </section>
     <section class="ui 15 column middle aligned grid raised segment">
@@ -43,4 +43,11 @@
         </div>
     </section>
     {{> add_images}}
+
+    <section class="ui grid">
+        <div class="right floated column">
+            <a href="/delete-poi/{{poi._id}}" class="ui right floated red button">Delete POI</a>>
+            <a href="/update-poi/{{poi._id}}" class="ui right floated teal button">Update POI</a>
+        </div>
+    </section>
 </section>
