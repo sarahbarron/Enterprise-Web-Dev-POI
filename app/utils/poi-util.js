@@ -3,13 +3,23 @@
 const Poi = require('../models/poi');
 const ImageStore = require('../utils/image-store');
 const User = require('../models/user');
+
+/*
+Methods needed for Point of Interest
+*/
+
 const PoiUtil = {
-    deletePoi: async function(poi_id) {
-        try {
+
+    /* Method for deleting a POI, by deleting all images first and
+     decrementing the number of pois for he user and finally
+      deleting  the POI */
+    deletePoi: async function (poi_id)
+    {
+        try
+        {
             const poi = await Poi.findById(poi_id).populate('image').populate('user').lean();
             const user_id = poi.user._id;
             const images = poi.image;
-            // Decrement num of pois
             const user = await User.findById(user_id);
             let numOfPoi = parseInt(user.numOfPoi);
             user.numOfPoi = numOfPoi - 1;
@@ -25,11 +35,11 @@ const PoiUtil = {
                 }
             }
             await Poi.findByIdAndDelete(poi_id);
-        }catch (e) {
-            console.log("PoiUtils - deletePoi Error: "+ e);
+        } catch (e)
+        {
+            console.log("Deletion of Point Of Interest Error: " + e);
         }
     },
-
 };
 
 module.exports = PoiUtil;

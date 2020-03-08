@@ -1,11 +1,16 @@
 'use strict';
+
 const isAdmin = {
-     isAdmin(scope) {
-         if (scope == 'admin') {
-             return true;
-         }
-         return false;
-     }
+    /* Method to check if the user has admin scope or not and
+    returns a boolean */
+    isAdmin(scope)
+    {
+        if (scope == 'admin')
+        {
+            return true;
+        }
+        return false;
+    }
 };
 
 module.exports = isAdmin;

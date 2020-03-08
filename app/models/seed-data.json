@@ -47,10 +47,9 @@
       "name": "Suir Bridge",
       "description": "The route offers a terrific view of the new River Suir road bridge. A major feature of the N25 Waterford Bypass is the 465m long cablestay bridge over the River Suir. This new crossing of the River Suir is to the west of Waterford City, and has a single pylon 112m high on the south side with a main span of 230m over the river.        ",
       "latitude": 52.279270,
-      "longitude": -7.150474 ,
+      "longitude": -7.150474,
       "user": "->users.marge",
       "category": "->category.waterford"
-
     },
     "congrave": {
       "name": "Mount Congreve",
@@ -59,7 +58,6 @@
       "longitude": -7.219084,
       "user": "->users.bart",
       "category": "->category.waterford"
-
     },
     "railway": {
       "name": "Suir Valley Railway",
@@ -68,7 +66,6 @@
       "longitude": -7.246926,
       "user": "->users.homer",
       "category": "->category.waterford"
-
     },
     "durrow": {
       "name": "Durrow Viaduct",
@@ -153,7 +150,7 @@
     "stradbally": {
       "name": "Stradbally Cove",
       "description": "Stradbally Cove\nOutline Geosite Description\nLow cliffs beside the sandy beach on the western side of Stradbally Cove.\n\nGeological System/Age and Primary Rock Type\nOrdovician sedimentary rocks such as slates and mudstones are intruded by thin units of volcanic rocks like andesite.\n\nMain Geological or Geomorphological Interest\nThere are indications the sediments were still wet or only partially consolidated when the lavas were injected into them and so there is disturbance of the sediments. Some later minor faults are seen by their associated veins of white quartz. Other sedimentary features provide evidence of earthquakes and quiet periods in between.\n\nThere is also a lime kiln here for use with coal and limestone brought in by boat.\n\nSite Importance\nThe site is part of the complex of sites along the Copper Coast, which collectively are of national importance and which are already part of a proposed NHA (Ballyvoyle Head to Tramore No 1693).\n\nAccess and Safety\nThe beach access allows easy and safe access to the rocks. The Copper Coast Geopark has emplaced some picnic seats and a table made of stone, and explanatory signboards.",
-      "longitude":  -7.460399,
+      "longitude": -7.460399,
       "latitude": 52.125079,
       "user": "->users.homer",
       "category": "->category.copper"

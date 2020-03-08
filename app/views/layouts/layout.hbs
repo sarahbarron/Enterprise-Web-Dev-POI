@@ -13,15 +13,20 @@
 </section>
 </body>
 </html>
+
+
 <script>
-    $(document).ready(function () {
-        $('.ui.dropdown').dropdown({ on: 'hover' });
+    // Allows for dropdown menus
+    $(document).ready(function ()
+    {
+        $('.ui.dropdown').dropdown({on: 'hover'});
     });
 </script>
 <script>
     // Displays errors if an error object is passed to the view
     // if no errors are sent there is no change
-    $('.message .close').on('click', function () {
+    $('.message .close').on('click', function ()
+    {
         $(this).closest('.message').transition('fade');
     });
 </script>

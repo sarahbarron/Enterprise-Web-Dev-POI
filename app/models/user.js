@@ -1,15 +1,9 @@
-/*
-Author: Sarah Barron
-College: Waterford Institute of Technology
-Course: Hdip Computer Science
-Module: Enterprise Web Development
-Assigment 1: POI's
-Model for a user
-includes their first name, last name, email and password
- */
-
 'use strict';
 
+/*
+User Schema to store a users name,email,password, number of poi's
+ and scope (admin or user)
+ */
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 const Boom = require('@hapi/boom');
@@ -23,14 +17,19 @@ const userSchema = new Schema({
     scope: Array
 });
 
-userSchema.statics.findByEmail = function(email) {
-    return this.findOne({ email : email});
+// Check if the email address exists during authentication
+userSchema.statics.findByEmail = function (email)
+{
+    return this.findOne({email: email});
 };
 
 
-userSchema.methods.comparePassword = function(candidatePassword) {
+// Compare passwords to check they match during authentication
+userSchema.methods.comparePassword = function (candidatePassword)
+{
     const isMatch = this.password === candidatePassword;
-    if (!isMatch) {
+    if (!isMatch)
+    {
         throw Boom.unauthorized('Password mismatch');
     }
     return this;
