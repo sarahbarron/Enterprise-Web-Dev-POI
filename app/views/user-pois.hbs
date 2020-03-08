@@ -1,8 +1,13 @@
-{{> mainmenu}}
+<!-- Page for admin to view a users points of interest and a filter for
+admin to be able to view a users poi by category -->
+{{> mainmenu _id="users"}}
 
 <section class="ui segment">
-    <div class="ui grid">
-        <h2>LIST OF {{firstName}} {{lastName}}'S - POINTS OF INTEREST</h2>
+    <div class="ui very padded grid">
+        <h2>List Of {{firstName}} {{lastName}}'s - Points Of Interest</h2>
     </div>
+    <div class="ui raised very padded container segment">
+        {{> filter-category-viewuser }}
+    </div>
+    {{> poi-table }}
 </section>
-{{> poi-list }}

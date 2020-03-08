@@ -1,22 +1,20 @@
-<!--
-Author: Sarah Barron
-College: Waterford Institute of Technology
-Course: Hdip Computer Science
-Module: Enterprise Web Development
-Assigment 1: POI's
-
-Home page
--->
-
+<!-- Index page -->
 {{> welcomemenu}}
 
-<section class="ui stacked segment">
-    <div class="ui grid">
-        <aside class="six wide column"><img src="images/waterford_greenway.jpg" class="ui medium image" /></aside>
-        <article class="ten wide column">
-            <header class="ui  header">Points of Interest</header>
-            <p>Get started adding the points of interest!</p>
-            {{> error}}
-        </article>
+<div class="ui two column middle aligned grid basic segment">
+    <section class="column center aligned">
+        <h1 class="ui header">
+            Ireland's Greenways & Trails
+        </h1>
+        <p>
+            This is a place you can add all your<br>
+            favourite Points Of Interest <br>
+            along the many amazing Greenways & Trails<br>
+            located around the wonderful Country of Ireland!
+        </p>
+    </section>
+    {{!-- greenway image--}}
+    <div class="column">
+        <img src="../images/waterford_greenway.jpg" alt="Ireland greenway and trails" class="ui large image">
     </div>
-</section>
+</div>
