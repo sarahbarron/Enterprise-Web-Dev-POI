@@ -121,7 +121,7 @@ const Poi = {
                 await ImageStore.uploadImage(image_file, newPoi._id);
 
                 // Increment num of pois for the user
-                let numOfPoi = parseInt(user.numOfPoi);
+                let numOfPoi = user.numOfPoi;
                 user.numOfPoi = numOfPoi + 1;
                 await user.save();
 

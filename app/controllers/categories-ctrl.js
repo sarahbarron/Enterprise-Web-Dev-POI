@@ -4,6 +4,7 @@ const CategoryModel = require('../models/categories');
 const Poi = require('../models/poi');
 const PoiUtils = require('../utils/poi-util');
 const User = require('../models/user');
+const Utils = require('../utils/isAdmin')
 /*
 Admin controls for Categories. Admin can add a category, delete a
 category and view points of interest in each category using a category

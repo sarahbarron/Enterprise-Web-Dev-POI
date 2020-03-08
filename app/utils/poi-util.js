@@ -21,7 +21,7 @@ const PoiUtil = {
             const user_id = poi.user._id;
             const images = poi.image;
             const user = await User.findById(user_id);
-            let numOfPoi = parseInt(user.numOfPoi);
+            let numOfPoi = user.numOfPoi;
             user.numOfPoi = numOfPoi - 1;
             await user.save();
 

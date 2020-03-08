@@ -14,7 +14,7 @@
       "lastName": "Simpson",
       "email": "marge@simpson.com",
       "password": "secret",
-      "nuOfPoi": 4,
+      "numOfPoi": 4,
       "scope": "admin"
     },
     "bart": {
@@ -29,16 +29,16 @@
   "category": {
     "_model": "Category",
     "waterford": {
-      "name": "Waterford Greenway"
+      "name": "WATERFORD GREENWAY"
     },
     "western": {
-      "name": "Great Western Greenway"
+      "name": "GREAT WESTERN GREENWAY"
     },
     "boyne": {
-      "name": "Boyne Greenway"
+      "name": "BOYNE GREENWAY"
     },
     "copper": {
-      "name": "Copper Coast"
+      "name": "COPPER COAST"
     }
   },
   "poi": {

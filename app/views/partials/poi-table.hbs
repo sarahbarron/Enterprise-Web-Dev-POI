@@ -24,7 +24,6 @@ Points of Interest
             <td colspan="1">
                 <a href="/view-poi/{{_id}}" class="ui icon button"><i class="eye teal icon"></i></a>
             </td>
-            <!--  Only a user can update and delete their pois don't allow admin access to these functions-->
             {{#if ../onlyusercanview}}
                 <td colspan="1">
                     <a href="/delete-poi/{{_id}}" class="ui icon button">
