@@ -1,3 +1,4 @@
+'use strict';
 const PointOfInterest = require('../models/poi');
 const User = require('../models/user');
 const Image = require('../models/image');

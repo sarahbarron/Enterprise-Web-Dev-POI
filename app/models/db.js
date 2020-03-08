@@ -1,5 +1,4 @@
 'use strict';
-
 /*
 Create connection to mongo
  */
