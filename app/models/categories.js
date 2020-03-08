@@ -1,5 +1,8 @@
 'use strict';
 
+/*
+Categories strategy stores the name of a category
+ */
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 

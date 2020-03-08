@@ -1,4 +1,7 @@
-
+<!-- Partial table listing all points of interest and their
+categories along with buttons to view, delete and update
+Points of Interest
+-->
 <table class="ui fixed table segment">
     <thead>
     <tr>
@@ -15,15 +18,13 @@
     <tbody>
     {{#each poi}}
         <tr>
-            <td colspan="1">  <i class="teal large map marker alternate icon"></i></td>
-            <td colspan="3">  <a href="/view-poi/{{_id}}">{{name}} </a></td>
+            <td colspan="1"><i class="teal large map marker alternate icon"></i></td>
+            <td colspan="3"><a href="/view-poi/{{_id}}">{{name}} </a></td>
             <td colspan="3">{{category.name}}</td>
             <td colspan="1">
                 <a href="/view-poi/{{_id}}" class="ui icon button"><i class="eye teal icon"></i></a>
             </td>
-            <!--               Only a user can update and delete their pois so don't allow admin access to these functions-->
             {{#if ../onlyusercanview}}
-
                 <td colspan="1">
                     <a href="/delete-poi/{{_id}}" class="ui icon button">
                         <i class="icon red trash"></i>
@@ -32,7 +33,6 @@
                 <td colspan="1">
                     <a href="/update-poi/{{_id}}" class="ui icon button">Update</a>
                 </td>
-
             {{/if}}
         </tr>
     {{/each}}

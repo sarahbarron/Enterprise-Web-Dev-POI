@@ -1,8 +1,8 @@
+'use strict';
+
 /*
 Create connection to mongo
  */
-
-'use strict';
 
 require('dotenv').config();
 
