@@ -1,8 +1,11 @@
 {{> mainmenu _id="users"}}
 
 <section class="ui segment">
-    <div class="ui grid">
+    <div class="ui very padded grid">
         <h2>List Of {{firstName}} {{lastName}}'s - Points Of Interest</h2>
     </div>
+    <div class="ui raised very padded container segment">
+        {{> filter-category-viewuser }}
+    </div>
+{{> poi-table }}
 </section>
-{{> poi-list }}

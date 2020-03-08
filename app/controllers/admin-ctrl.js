@@ -5,6 +5,7 @@ const Joi = require('@hapi/joi');
 const Utils = require('../utils/isAdmin');
 const PointOfInterest = require('../models/poi');
 const PoiUtils = require('../utils/poi-util');
+const Category = require('../models/categories')
 
 const Admin = {
     adminDashboard: {
@@ -55,23 +56,72 @@ const Admin = {
         auth: {scope: 'admin'},
         handler: async function(request, h){
             try{
-                const id = request.params.id;
-                const user = await User.findById(id);
-                const poi_list = await PointOfInterest.find({user: user}).populate('user').populate('category').lean().sort('-category');
+                try{
 
-                return h.view('user-pois',
+                    const id = request.params.id;
+                    const user = await User.findById(id);
+                    let filter = request.payload;
+                    let poi_list;
+                    let defaultcategory;
+
+                    if(filter !=null)
                     {
-                        title: 'View User',
+                        if (filter.category === "all")
+                        {
+                            filter = null;
+                        } else
+                        {
+                            const filter_by_category = await Category.findOne({name: filter.category}).lean();
+                            poi_list = await PointOfInterest.find({user:user, category: filter_by_category}).populate('user').populate('category').lean().sort('-category');
+                            defaultcategory = filter_by_category;
+                        }
+                    }
+                    if (filter == null) {
+                        const filter_by_category = await Category.find().lean().sort('name');
+                        poi_list = await PointOfInterest.find({user:user, category: filter_by_category}).populate('user').populate('category').lean().sort('-category');
+                        if (filter_by_category.length > 0)
+                        {
+                            defaultcategory = filter_by_category[0];
+                        }
+                    }
+
+                    const categories = await Category.find().lean().sort('name');
+                    return h.view('user-pois', {
+                        title: "View User",
+                        userid: user._id,
                         firstName: user.firstName,
                         lastName: user.lastName,
+                        categories: categories,
                         poi: poi_list,
-                        isadmin: true,
+                        defaultcategory: defaultcategory,
                         onlyusercanview: false,
+                        isadmin: true
                     });
+                }catch (err) {
+                    console.log("Category-ctrl, viewCategories: " + err);
+                }
+
+
+
+
+
+                // const id = request.params.id;
+                // const user = await User.findById(id);
+                // const poi_list = await PointOfInterest.find({user: user}).populate('user').populate('category').lean().sort('-category');
+                // const categories = await Category.find().lean();
+                // return h.view('user-pois',
+                //     {
+                //         title: 'View User',
+                //         firstName: user.firstName,
+                //         lastName: user.lastName,
+                //         poi: poi_list,
+                //         isadmin: true,
+                //         onlyusercanview: false,
+                //         categories: categories
+                //     });
 
             }catch (err) {
                 return h.view('admin-dashboard', {errors: [{message: err.message}]})
-
             }
         }
     }

@@ -30,6 +30,7 @@ module.exports = [
     {method: 'GET', path: '/admin-dashboard', config: Admin.adminDashboard},
     {method: 'GET', path: '/delete-user/{id}', config: Admin.deleteUser},
     {method: 'GET', path: '/view-user/{id}', config: Admin.viewUser},
+    {method: 'POST', path: '/view-user/{id}', config: Admin.viewUser},
 
     // Images
     {method: 'POST', path: '/addimage/{poi}', config: Image.uploadFile},
