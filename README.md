@@ -3,6 +3,7 @@
 #### Hdip Computer Science - Waterford Institute of Technology
 #### Module: Enterprise Web Development
 #### Assignment 1 - POI Web Application Core Version 1
+#### Grade: 98%
 
 #### [Heroku deployed website](https://shrouded-shelf-05238.herokuapp.com/)
 #### [Glitch deployed website](https://sarahbarron-enterprise-web-dev-poi-1.glitch.me)
