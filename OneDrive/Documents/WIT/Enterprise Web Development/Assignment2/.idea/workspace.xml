@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b8a8a4c4-8de4-4a71-8f52-c88e7cdd2753" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/assignment2-poi/src/services/poi-types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assignment2-poi/src/views/pois.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assignment2-poi/src/views/pois.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assignment2-poi/src/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/assignment2-poi/src/app.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assignment2-poi/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assignment2-poi/src/app.ts" afterDir="false" />
     </list>
@@ -57,7 +59,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1589834159809</updated>
-      <workItem from="1589834161354" duration="6276000" />
+      <workItem from="1589834161354" duration="7120000" />
     </task>
     <servers />
   </component>
