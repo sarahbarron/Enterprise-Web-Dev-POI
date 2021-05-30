@@ -160,6 +160,16 @@
                     };
                     games = [...games, game];
                 });
+
+                countyTeams.sort(
+                    (first, second) =>
+                        0 - (first.countyName > second.countyName ? -1 : 1)
+                );
+                clubTeams.sort(
+                    (first, second) =>
+                        0 - (first.clubName > second.clubName ? -1 : 1)
+                );
+                aClubsCounty.sort();
             }
         });
     });
