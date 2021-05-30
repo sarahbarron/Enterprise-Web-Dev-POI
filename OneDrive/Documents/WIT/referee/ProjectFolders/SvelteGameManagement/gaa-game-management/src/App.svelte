@@ -33,18 +33,6 @@
 
 	router("/*", () => (page = NotFound));
 	router.start();
-
-	// function queryString(unparsed) {
-	// 	const separated = unparsed.replace("?", "").split("&");
-	// 	if (!separated) return {};
-
-	// 	const query = {};
-	// 	for (let item of separated) {
-	// 		const x = item.split("=");
-	// 		query[x[0]] = x[1];
-	// 	}
-	// 	return query;
-	// }
 </script>
 
 <svelte:component this={page} {params} {qs} />
