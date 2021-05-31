@@ -73,31 +73,37 @@ const unsubscribeSelectedClubs = selectedClubs.subscribe((value) => {
 
 export const filterGames = async () => {
     let games: ThisGame[] = all_games;
+    console.log(`1. FilterGames ${games}`);
+
     if ((hurling && football) || (!hurling && !football)) { }
     else if (hurling) {
-        games = all_games.filter((game) => {
+        games = games.filter((game) => {
             return game.sportType === "hurling";
         });
     }
     else if (football) {
-        games = all_games.filter((game) => {
+        games = games.filter((game) => {
             return game.sportType === "football";
         });
     }
+    console.log(`2. FilterGames after sport type${games}`);
 
     if ((club && county) || (!club && !county)) { }
     else if (club) {
-        games = all_games.filter((game) => {
+        games = games.filter((game) => {
             return game.isAClubGame === true;
         });
     }
     else if (county) {
-        games = all_games.filter((game) => {
+        games = games.filter((game) => {
             return game.isACountyGame === true;
         });
     }
 
+    console.log(`3. FilterGames after club/county ${games}`);
+
     let gamesCounty = [];
+    let countiesFiltered: boolean = false
     if (selected_counties.length > 0) {
         gamesCounty = games;
         let teamA_all_games = games;
@@ -105,9 +111,12 @@ export const filterGames = async () => {
         let teamAGames = teamA_all_games.filter((f) => selected_counties.includes(f.teamAName));
         let teamBGames = teamB_all_games.filter((f) => selected_counties.includes(f.teamBName));
         gamesCounty = [...new Set(teamAGames.concat(teamBGames))];
+        countiesFiltered = true;
     }
+    console.log(`4. FilterGames Games after county: ${games} gamesCounty ${gamesCounty}`);
 
     let gamesClub = [];
+    let clubsFiltered: boolean = false
     if (selected_clubs.length > 0) {
         gamesClub = games;
         let teamA_all_games = games;
@@ -116,11 +125,14 @@ export const filterGames = async () => {
         let teamBGames = teamB_all_games.filter((f) => selected_clubs.includes(f.teamBName));
         gamesClub = [...new Set(teamAGames.concat(teamBGames))];
         console.log(`gamesClub ${gamesClub}`);
+        clubsFiltered = true
     }
+    console.log(`5. FilterGames Games after club: ${games} gamesClub ${gamesClub}`);
 
-    if ((gamesClub.length != 0) || gamesCounty.length != 0) {
+    if (clubsFiltered || countiesFiltered) {
         games = [...new Set(gamesClub.concat(gamesCounty))];
     }
+    console.log(`6. FilterGames Games: ${games} gamesCounty ${gamesCounty} games Club ${gamesClub}`);
 
     filteredGames.set(games);
     return;
