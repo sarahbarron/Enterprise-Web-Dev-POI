@@ -20,12 +20,10 @@
 
     // If a checkbox is checked or unchecked update the filter
     $: if (hurlingX || !hurlingX) {
-        console.log(`sportTypeFilter: Hurling: ${hurlingX}`);
         hurlingChecked.set(hurlingX);
         filterGames();
     }
     $: if (footballX || !footballX) {
-        console.log(`sportTypeFilter: Football: ${footballX}`);
         footballChecked.set(footballX);
         filterGames();
     }

@@ -1,5 +1,14 @@
-import { selectedCounties } from './store';
-import { hurlingChecked, footballChecked, allGames, filteredGames, clubChecked, countyChecked } from "../services/store";
+
+import {
+    hurlingChecked,
+    footballChecked,
+    allGames,
+    filteredGames,
+    clubChecked,
+    countyChecked,
+    selectedCounties,
+    selectedClubs
+} from "../services/store";
 
 
 interface ThisGame {
@@ -32,7 +41,8 @@ let hurling: boolean;
 let football: boolean;
 let club: boolean;
 let county: boolean;
-let selected_counties: countyTeams[];
+let selected_counties: string[];
+let selected_clubs: string[];
 let all_games: ThisGame[];
 
 const unsubscribeHurlingChecked = hurlingChecked.subscribe((value) => {
@@ -57,7 +67,9 @@ const unsubscribeSelectedCounties = selectedCounties.subscribe((value) => {
     selected_counties = value;
 });
 
-
+const unsubscribeSelectedClubs = selectedClubs.subscribe((value) => {
+    selected_clubs = value;
+});
 
 export const filterGames = async () => {
     let games: ThisGame[] = all_games;
@@ -83,6 +95,31 @@ export const filterGames = async () => {
         games = all_games.filter((game) => {
             return game.isACountyGame === true;
         });
+    }
+
+    let gamesCounty = [];
+    if (selected_counties.length > 0) {
+        gamesCounty = games;
+        let teamA_all_games = games;
+        let teamB_all_games = games;
+        let teamAGames = teamA_all_games.filter((f) => selected_counties.includes(f.teamAName));
+        let teamBGames = teamB_all_games.filter((f) => selected_counties.includes(f.teamBName));
+        gamesCounty = [...new Set(teamAGames.concat(teamBGames))];
+    }
+
+    let gamesClub = [];
+    if (selected_clubs.length > 0) {
+        gamesClub = games;
+        let teamA_all_games = games;
+        let teamB_all_games = games;
+        let teamAGames = teamA_all_games.filter((f) => selected_clubs.includes(f.teamAName));
+        let teamBGames = teamB_all_games.filter((f) => selected_clubs.includes(f.teamBName));
+        gamesClub = [...new Set(teamAGames.concat(teamBGames))];
+        console.log(`gamesClub ${gamesClub}`);
+    }
+
+    if ((gamesClub.length != 0) || gamesCounty.length != 0) {
+        games = [...new Set(gamesClub.concat(gamesCounty))];
     }
 
     filteredGames.set(games);

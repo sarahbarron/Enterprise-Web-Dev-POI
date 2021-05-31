@@ -1,4 +1,15 @@
 <script lang="ts">
+    import { selectedClubs } from "../services/store";
+    import { onDestroy } from "svelte";
+    import { filterGames } from "../services/filterList";
+
+    interface clubTeams {
+        clubId: string;
+        clubName: string;
+        competitionCounty: string;
+        isAClubGame: boolean;
+        isACountyGame: boolean;
+    }
     export let clubTeams: {
         clubId: string;
         clubName: string;
@@ -7,6 +18,19 @@
         isACountyGame: boolean;
     }[];
     export let aClubsCounty: string[];
+
+    let store_selected_clubs: string[];
+    const unsubscribeSelectedClubs = selectedClubs.subscribe((value) => {
+        store_selected_clubs = value;
+    });
+    onDestroy(unsubscribeSelectedClubs);
+
+    let selected_clubs: string[] = [];
+    $: if (selected_clubs.length >= 0) {
+        console.log(`ClubFilter: ${selected_clubs}`);
+        selectedClubs.set(selected_clubs);
+        filterGames();
+    }
 </script>
 
 <!-- Club Teams  -->
@@ -45,6 +69,7 @@
                                     type="checkbox"
                                     value={team.clubName}
                                     id={team.clubId}
+                                    bind:group={selected_clubs}
                                 />
                                 <label
                                     class="form-check-label dropdown-list-label"

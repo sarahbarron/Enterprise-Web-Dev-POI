@@ -1,6 +1,5 @@
 import { writable } from 'svelte/store';
 
-
 export const allGames = writable([]);
 export const filteredGames = writable([]);
 export const hurlingChecked = writable(false);

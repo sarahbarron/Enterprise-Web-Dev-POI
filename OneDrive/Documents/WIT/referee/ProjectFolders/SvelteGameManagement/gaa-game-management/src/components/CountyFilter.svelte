@@ -1,20 +1,14 @@
 <script lang="ts">
-    import { allGames, selectedCounties } from "../services/store";
+    import { selectedCounties } from "../services/store";
     import { onDestroy } from "svelte";
     import { filterGames } from "../services/filterList";
-    interface ThisGame {
-        childKey: string;
-        competitionName: string;
-        teamACrest: string;
-        teamAName: string;
-        teamBCrest: string;
-        teamBName: string;
-        startTime: string;
-        sportType: string;
+
+    interface countyTeams {
+        countyId: string;
+        countyName: string;
         isAClubGame: boolean;
         isACountyGame: boolean;
     }
-
     export let countyTeams: {
         countyId: string;
         countyName: string;
@@ -22,17 +16,18 @@
         isACountyGame: boolean;
     }[];
 
-    let all_games: ThisGame[];
-    let selected_counties: ThisGame[];
     // Subscibe to store values
+    let store_selected_counties: string[];
     const unsubscribeSelectedCounties = selectedCounties.subscribe((value) => {
-        selected_counties = value;
+        store_selected_counties = value;
     });
     onDestroy(unsubscribeSelectedCounties);
-    const unsubscribeAllGames = allGames.subscribe((value) => {
-        all_games = value;
-    });
-    onDestroy(unsubscribeAllGames);
+
+    let selected_counties: string[] = [];
+    $: if (selected_counties.length >= 0) {
+        selectedCounties.set(selected_counties);
+        filterGames();
+    }
 </script>
 
 <li class="nav-item dropdown dropdown-list-header">
@@ -59,6 +54,7 @@
                         type="checkbox"
                         value={team.countyId}
                         id={team.countyId}
+                        bind:group={selected_counties}
                     />
                     <label
                         class="form-check-label dropdown-list-label"
