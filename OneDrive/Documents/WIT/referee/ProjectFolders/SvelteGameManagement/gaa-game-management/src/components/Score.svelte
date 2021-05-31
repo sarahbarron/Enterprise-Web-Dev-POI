@@ -10,6 +10,8 @@
     export let teamBName: string;
     export let startTime: string;
     export let sportType: string;
+    export let isAClubGame: boolean;
+    export let isACountyGame: boolean;
     export let teamAPlayers: string[];
     export let teamBPlayers: string[];
 

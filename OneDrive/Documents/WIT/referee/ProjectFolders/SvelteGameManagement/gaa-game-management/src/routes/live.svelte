@@ -2,9 +2,21 @@
     import { auth, db, rtdb } from "../services/firebase";
     import router from "page";
     import Score from "../components/Score.svelte";
-    import Filter from "../components/Filter.svelte";
-    import DropdownFilter from "../components/DropdownFilter.svelte";
-    import { onMount } from "svelte";
+    import NavBar from "../components/NavBar.svelte";
+    import { onDestroy, onMount } from "svelte";
+    import { allGames, filteredGames } from "../services/store";
+
+    let all_games: ThisGame[];
+    const unsubscribeAllGames = allGames.subscribe((value) => {
+        all_games = value;
+    });
+    onDestroy(unsubscribeAllGames);
+
+    let filtered_games: ThisGame[];
+    const unsubscribeGames = filteredGames.subscribe((value) => {
+        filtered_games = value;
+    });
+    onDestroy(unsubscribeGames);
 
     interface ThisGame {
         childKey: string;
@@ -15,6 +27,8 @@
         teamBName: string;
         startTime: string;
         sportType: string;
+        isAClubGame: boolean;
+        isACountyGame: boolean;
     }
 
     interface CountyTeam {
@@ -31,22 +45,26 @@
         isACountyGame: boolean;
     }
 
-    // let user: User | null;`
-
-    let games: ThisGame[] = [];
     let countyTeams: CountyTeam[] = [];
+    // Filter list of all club teams playing today
     let clubTeams: ClubTeam[] = [];
+    // Filter list of all counties that have a
+    // club playing today
     let aClubsCounty: string[] = [];
+
     let teamAPlayers: string[] = [];
     let teamBPlayers: string[] = [];
 
     onMount(async () => {
+        getGames();
+    });
+
+    let getGames = async function () {
         const getGames = rtdb.ref(`games/`).once("value", function (snapshot) {
             var data = snapshot.val();
             if (data != null) {
                 snapshot.forEach((childSnapshot) => {
                     var childKey = childSnapshot.key;
-                    var childData = childSnapshot.val();
                     var competitionName =
                         childSnapshot.val().competition.competitionName;
                     var teamAName = childSnapshot.val().teamA.teamName;
@@ -157,10 +175,14 @@
                         teamBName: teamBName,
                         startTime: startTime,
                         sportType: sportType,
+                        isAClubGame: isAClubGame,
+                        isACountyGame: isACountyGame,
                     };
-                    games = [...games, game];
+                    allGames.set([...all_games, game]);
+                    filteredGames.set([...filtered_games, game]);
                 });
 
+                // Sort alphabetically
                 countyTeams.sort(
                     (first, second) =>
                         0 - (first.countyName > second.countyName ? -1 : 1)
@@ -172,7 +194,7 @@
                 aClubsCounty.sort();
             }
         });
-    });
+    };
 </script>
 
 <div class="container-fluid">
@@ -183,13 +205,13 @@
     </h2>
 
     <br />
-    <DropdownFilter {countyTeams} {clubTeams} {aClubsCounty} />
+    <NavBar {countyTeams} {clubTeams} {aClubsCounty} />
     <div class="row">
         <!-- Current Total Scores -->
         <div class="col-12">
             <div>
-                {#if games.length > 0}
-                    {#each games as s (s.childKey)}
+                {#if filtered_games.length > 0}
+                    {#each filtered_games as s (s.childKey)}
                         <Score {...s} {teamAPlayers} {teamBPlayers} />
                     {/each}
                 {:else}
